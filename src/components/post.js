@@ -61,7 +61,8 @@ export default class Post extends Component{
         imgURL: this.state.memberApp.state.imgURL
       },
       postcontent: this.state.postcontent,
-      imgURL: this.state.imgURL
+      imgURL: this.state.imgURL,
+      updateTime: '剛剛'
     }
     this.state.memberApp.postPreprocess("new",tempPost,0);
   }
@@ -130,7 +131,7 @@ export default class Post extends Component{
         	      <div className="modal-body">
 
         	            <div className="form-group">
-        	              <textarea id="content_input" value={this.state.postcontent} onChange={this.changePostcontent} name="postcontent" type="text" className="form-control input-lg" rows="4" placeholder="What do you want to share?"></textarea>
+        	              <textarea id="content_input" value={this.state.postcontent} onChange={this.changePostcontent} name="postcontent" type="text" className="form-control input-lg" rows="4" placeholder="想分享什麼？"></textarea>
         								<div className="row">
         									<div id="post-img-div" className="img-hover display-none col-sm-7 col-xs-7">
         										<img id="output-img-preview" className="img-responsive margin-center"/>
@@ -141,16 +142,13 @@ export default class Post extends Component{
 
         	      </div>
         	      <div className="modal-footer">
-        	          <div>
-        							<div className="image-upload pull-left list-inline">
-        								<label htmlFor="img-input">
-        		        			<i className="fa fa-picture-o" aria-hidden="true">  <span id="post-img-name">選擇一張照片</span></i>
-        		    				</label>
-        		    				<input id="img-input" type="file" name="userPhoto" onChange={this.changeFileName}/>
-        							</div>
-        		          <button onClick={this.submitForm} type="submit" value="Upload userpost" className="submitBtn" data-dismiss="modal" aria-hidden="true">Post</button>
-
-        			  		</div>
+    							<div className="image-upload">
+    								<label htmlFor="img-input">
+    		        			<i className="fa fa-picture-o" aria-hidden="true">  <span id="post-img-name">選擇一張照片</span></i>
+    		    				</label>
+    		    				<input id="img-input" type="file" name="userPhoto" onChange={this.changeFileName}/>
+    							</div>
+    		          <button onClick={this.submitForm} type="submit" value="Upload userpost" className="submitBtn" data-dismiss="modal" aria-hidden="true">發佈</button>
         	      </div>
         		</form>
           </div>

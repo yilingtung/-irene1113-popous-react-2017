@@ -1,24 +1,28 @@
 .submitBtn{
   background: #4AC6B7;
-  padding: 10px;
-  font-size: 20px;
+  padding: 5px 10px;
+  font-size: 14px;
   display: block;
-  width: 80%;
   border: none;
   color: #fff;
   border-radius: 5px;
-  margin-left: auto;
-  margin-right: auto;
+  float: right;
 }
 .submitBtn:hover {
   color: #fff;
-  position:relative;
-  top: -2px;
+  background: #4BCCBD;
 }
 .submitBtn:active {
   background: #3FAA9E;
 	position:relative;
 	top: 1px;
+}
+.image-upload{
+  float: left;
+  line-height: 30px;
+}
+.image-upload label{
+  margin-bottom: 0px;
 }
 .big-icon{
     font-size: 160px;
@@ -106,6 +110,7 @@ div.img-hover button {
 .image-upload > input
 {
     display: none;
+
 }
 .edit-title{
   margin-left: 5px;

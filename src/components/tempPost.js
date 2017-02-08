@@ -9,6 +9,7 @@ class TempPost extends Component {
     }
     super(props);
     this.state = {};
+    
   }
   render(){
     return(
@@ -34,7 +35,7 @@ class TempPost extends Component {
                 <p> { this.props.post.userid.idname } </p>
               </div>
               <div className="post-time">
-                <p>Just Now</p>
+                <p>{ this.props.post.updateTime }</p>
               </div>
             </div>
           </div>

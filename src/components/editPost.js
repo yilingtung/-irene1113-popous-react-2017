@@ -80,7 +80,8 @@ export default class EditPost extends Component{
         imgURL: this.state.memberApp.state.imgURL
       },
       postcontent: this.state.oldPostcontent,
-      imgURL: this.state.oldimgURL
+      imgURL: this.state.oldimgURL,
+      updateTime: this.state.updateTime
     }
     this.state.memberApp.postPreprocess("previous",tempPost,this.state.memberApp.state.perPostIndex);
   }
@@ -144,7 +145,7 @@ export default class EditPost extends Component{
         	      <div className="modal-body">
 
         	            <div className="form-group">
-        	              <textarea id="editPost_content_input" value={this.state.postcontent} onChange={(event) => this.setState({postcontent: event.target.value})} name="postcontent" type="text" className="form-control input-lg" rows="4" placeholder="What do you want to share?"></textarea>
+        	              <textarea id="editPost_content_input" value={this.state.postcontent} onChange={(event) => this.setState({postcontent: event.target.value})} name="postcontent" type="text" className="form-control input-lg" rows="4" placeholder="想分享什麼？"></textarea>
         								<div className="row">
                         {this.state.imgURL?(
                           <div id="editPost_post-img-div" className="img-hover img-div-style col-sm-3 col-xs-3">
@@ -161,17 +162,14 @@ export default class EditPost extends Component{
         	            </div>
 
         	      </div>
-        	      <div className="modal-footer">
-        	          <div>
-        							<div className="image-upload pull-left list-inline">
-        								<label htmlFor="editPost_img-input">
-        		        			<i className="fa fa-picture-o" aria-hidden="true">  <span id="editPost_post-img-name">更換新照片</span></i>
-        		    				</label>
-        		    				<input id="editPost_img-input" type="file" name="userPhoto" onChange={this.changeFileName}/>
-        							</div>
-        		          <button onClick={this.submitForm} type="submit" value="Upload userpost" className="btn btn-primary btn-sm" data-dismiss="modal" aria-hidden="true">儲存</button>
-
-        			  		</div>
+                <div className="modal-footer">
+    							<div className="image-upload">
+    								<label htmlFor="img-input">
+    		        			<i className="fa fa-picture-o" aria-hidden="true">  <span id="post-img-name">換一張圖片</span></i>
+    		    				</label>
+    		    				<input id="img-input" type="file" name="userPhoto" onChange={this.changeFileName}/>
+    							</div>
+    		          <button onClick={this.submitForm} type="submit" value="Upload userpost" className="submitBtn" data-dismiss="modal" aria-hidden="true">儲存</button>
         	      </div>
         		</form>
           </div>
