@@ -8,38 +8,37 @@ const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/dxwnkzsxe/image/u
 export default class EditPost extends Component{
   constructor(props){
     super(props);
-    this.state = {};
+    this.state = {
+      memberApp: this.props.memberApp
+    };
     this.changePostcontent = this.changePostcontent.bind(this);
     this.removeImg = this.removeImg.bind(this);
     this.changeFileName = this.changeFileName.bind(this);
     this.submitForm = this.submitForm.bind(this);
   }
   componentWillMount(){
-    this.setState({
-      memberApp: this.props.memberApp
-    },()=>{
-      var xhttp = new XMLHttpRequest();
-      xhttp.onreadystatechange = () =>{
-        if(xhttp.readyState == 4 && xhttp.status == 200){
-          var object = JSON.parse(xhttp.responseText);
-          console.log(object);
-          this.setState(
-            {
-              _id: object._id,
-              userid: object.userid,
-              postcontent: object.postcontent,
-              imgURL: object.imgURL,
-              updateTime: object.updateTime,
-              mgFile: null,
-              oldPostcontent: object.postcontent,
-              oldimgURL: object.imgURL
-            }
-          );
-        }
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = () =>{
+      if(xhttp.readyState == 4 && xhttp.status == 200){
+        var object = JSON.parse(xhttp.responseText);
+        console.log(object);
+        this.setState(
+          {
+            _id: object._id,
+            userid: object.userid,
+            postcontent: object.postcontent,
+            imgURL: object.imgURL,
+            updateTime: object.updateTime,
+            mgFile: null,
+            oldPostcontent: object.postcontent,
+            oldimgURL: object.imgURL
+          }
+        );
       }
-      xhttp.open("GET","/perPostInfo?_id=" + this.state.memberApp.state.perPostId);
-      xhttp.send();
-    });
+    }
+    xhttp.open("GET","/perPostInfo?_id=" + this.state.memberApp.state.perPostId);
+    xhttp.send();
+
   }
   changePostcontent(){
     var textarea = document.getElementById('content_input');
@@ -50,7 +49,7 @@ export default class EditPost extends Component{
   removeImg(){
     var input = document.getElementById('editPost_img-input');
     input.value = "";
-    document.getElementById('editPost_post-img-name').innerHTML = "請選擇一張照片";
+    document.getElementById('editPost_post-img-name').innerHTML = "新增圖片";
     var output = document.getElementById('editPost_output-img-preview');
     output.src = "";
     var div = document.getElementById("editPost_post-img-div");
@@ -164,10 +163,10 @@ export default class EditPost extends Component{
         	      </div>
                 <div className="modal-footer">
     							<div className="image-upload">
-    								<label htmlFor="img-input">
-    		        			<i className="fa fa-picture-o" aria-hidden="true">  <span id="post-img-name">換一張圖片</span></i>
+    								<label htmlFor="editPost_img-input">
+    		        			<i className="fa fa-picture-o" aria-hidden="true">  <span id="editPost_post-img-name">換一張圖片</span></i>
     		    				</label>
-    		    				<input id="img-input" type="file" name="userPhoto" onChange={this.changeFileName}/>
+    		    				<input id="editPost_img-input" type="file" name="userPhoto" onChange={this.changeFileName}/>
     							</div>
     		          <button onClick={this.submitForm} type="submit" value="Upload userpost" className="submitBtn" data-dismiss="modal" aria-hidden="true">儲存</button>
         	      </div>

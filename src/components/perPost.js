@@ -8,7 +8,9 @@ class PerPost extends Component {
       return len > 0? new Array(len).join(chr || '0')+this : this;
     }
     super(props);
-    this.state = {};
+    this.state = {
+      isActive: true
+    };
     this.deletePost = this.deletePost.bind(this);
     this.passPostInfo = this.passPostInfo.bind(this);
     var time = this.props.post.updateTime;
@@ -40,15 +42,21 @@ class PerPost extends Component {
     nextProps.post.updateTime = date;
     return true;
   }
+  postProcessingShow(){
+    var postDiv = document.getElementsByClassName('my-gallery-class')[0].childNodes[this.props.index];
+    var processingDiv = postDiv.childNodes[0].childNodes[0];
+    var processingWrapper = postDiv.childNodes[0].childNodes[1];
+    processingDiv.className += " processing";
+    processingWrapper.className += " processing-wrapper";
+  }
   deletePost(){
     console.log(this.props.post._id);
     var _this = this;
     this.state.memberApp.setState({
       perPostId: this.props.post._id,
       perPostIndex: this.props.index
-    },()=>{
-      this.state.memberApp.postPreprocess("previous",this.props.post,this.props.index);
     });
+    _this.postProcessingShow();
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
       if(xhttp.readyState == 4 && xhttp.status == 200){
@@ -81,45 +89,48 @@ class PerPost extends Component {
     return (
       <div className="col-sm-4 col-xs-12 image-element-class">
         <div className="panel panel-default">
-        {this.state.haveImg ? (
-          <div className="panel-thumbnail">
-            <img src={ this.props.post.imgURL } className="img-responsive margin-center" />
-          </div>
-        ):(
-          <div className="panel-body">
-            <p >{ this.props.post.postcontent }</p>
-          </div>
-        )}
-          <div className="panel-body-name">
-            <div className= "row panel-body-margin-bottom">
-              <div>
-                <img src={ this.props.post.userid.imgURL } className="post-userimg displayed" alt="" />
-              </div>
-              <div className="post-user-name">
-                <p> { this.props.post.userid.idname } </p>
-              </div>
-              <div className="post-time">
-                <p> { this.props.post.updateTime }</p>
+          <div></div>
+          <div>
+          {this.state.haveImg ? (
+            <div className="panel-thumbnail">
+              <img src={ this.props.post.imgURL } className="img-responsive margin-center" />
+            </div>
+          ):(
+            <div className="panel-body">
+              <p >{ this.props.post.postcontent }</p>
+            </div>
+          )}
+            <div className="panel-body-name">
+              <div className= "row panel-body-margin-bottom">
+                <div>
+                  <img src={ this.props.post.userid.imgURL } className="post-userimg displayed" alt="" />
+                </div>
+                <div className="post-user-name">
+                  <p> { this.props.post.userid.idname } </p>
+                </div>
+                <div className="post-time">
+                  <p> { this.props.post.updateTime }</p>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="panel-body">
-          {this.props.isMyPost > 0 &&
-            <div className="more">
-              <a role="button" data-toggle="dropdown">
-                <i className="fa fa-ellipsis-h" aria-hidden="true"></i>
-              </a>
-              <ul className="dropdown-menu">
-                <li><a onClick={this.passPostInfo} href="#editPostModal" role="button" data-toggle="modal">編輯</a></li>
-                <li><a onClick={this.deletePost} role="button">刪除</a></li>
-              </ul>
-            </div>
-          }
-            <p>
-            {this.state.haveImg > 0 &&
-              this.props.post.postcontent
+            <div className="panel-body">
+            {this.props.isMyPost > 0 &&
+              <div className="more">
+                <a role="button" data-toggle="dropdown">
+                  <i className="fa fa-ellipsis-h" aria-hidden="true"></i>
+                </a>
+                <ul className="dropdown-menu">
+                  <li><a onClick={this.passPostInfo} href="#editPostModal" role="button" data-toggle="modal">編輯</a></li>
+                  <li><a onClick={this.deletePost} role="button">刪除</a></li>
+                </ul>
+              </div>
             }
-            </p>
+              <p>
+              {this.state.haveImg > 0 &&
+                this.props.post.postcontent
+              }
+              </p>
+            </div>
           </div>
         </div>
       </div>

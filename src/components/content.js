@@ -4,8 +4,9 @@ import TempPost from './tempPost';
 var Masonry = require('react-masonry-component');
 
 var masonryOptions = {
-    transitionDuration: 0
+    transitionDuration: 1000
 };
+
 
 export default class Content extends Component{
   constructor(props){

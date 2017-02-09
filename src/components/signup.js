@@ -5,6 +5,21 @@ export default class SignUp extends Component{
     super(props);
     this.state = {};
     this.submitForm = this.submitForm.bind(this);
+    this.hideInvisibleDiv = this.hideInvisibleDiv.bind(this);
+  }
+  hideInvisibleDiv(){
+    if(this.props.indexApp.state.isSwitchBtnClick){
+      var invisible_div = document.getElementById('invisible-div');
+      this.props.indexApp.setState({
+        isSwitchBtnClick: false
+      },()=>{
+        console.log(this.props.indexApp.state.isSwitchBtnClick);
+        invisible_div.classList.remove("display-block");
+        invisible_div.className += " display-none";
+        var signup_box = document.getElementById('signup-box');
+        $(signup_box).animate({left: "100%"}, 500);
+      });
+    }
   }
   submitForm(){
     var xhttp = new XMLHttpRequest();
@@ -41,7 +56,7 @@ export default class SignUp extends Component{
   render(){
     return(
       <div className="row">
-        <div id="invisible-div" className="display-none">
+        <div onClick={this.hideInvisibleDiv} id="invisible-div" className="display-none">
         </div>
         <div className="row">
             <div id="signup-box" className="col-md-5 col-sm-10 col-xs-10" >
