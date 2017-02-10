@@ -8,11 +8,9 @@ class PerPost extends Component {
       return len > 0? new Array(len).join(chr || '0')+this : this;
     }
     super(props);
-    var haveImg = Boolean(this.props.post.imgURL);
     this.state = {
       isActive: false,
-      haveImg: haveImg,
-      memberApp: this.props.memberApp
+      editPostRebuild: false
     };
     this.deletePost = this.deletePost.bind(this);
     this.passPostInfo = this.passPostInfo.bind(this);
@@ -26,24 +24,30 @@ class PerPost extends Component {
                date.getSeconds().padLeft()].join(':');
     this.props.post.updateTime = date;
   }
+  componentWillMount(){
+    var haveImg = Boolean(this.props.post.imgURL);
+    this.setState({
+      haveImg: haveImg,
+      memberApp: this.props.memberApp
+    });
+  }
   shouldComponentUpdate(nextProps,nextState){
-    var haveImg = Boolean(nextProps.post.imgURL);
-    nextState.haveImg = haveImg;
-    try {
-      var haveImg = Boolean(nextProps.post.imgURL);
-      nextState.haveImg = haveImg;
-      var time = nextProps.post.updateTime;
-      var date = new Date(JSON.parse(time));
-      date = [(date.getMonth()+1).padLeft(),
-                 date.getDate().padLeft(),
-                 date.getFullYear()].join('/') +' ' +
-                [date.getHours().padLeft(),
-                 date.getMinutes().padLeft(),
-                 date.getSeconds().padLeft()].join(':');
-      nextProps.post.updateTime = date;
-    } catch (e) {
-      return true;
+    if(nextState.isActive == false){
+      if(nextState.editPostRebuild == false){
+        var haveImg = Boolean(nextProps.post.imgURL);
+        nextState.haveImg = haveImg;
+        var time = nextProps.post.updateTime;
+        var date = new Date(JSON.parse(time));
+        date = [(date.getMonth()+1).padLeft(),
+                   date.getDate().padLeft(),
+                   date.getFullYear()].join('/') +' ' +
+                  [date.getHours().padLeft(),
+                   date.getMinutes().padLeft(),
+                   date.getSeconds().padLeft()].join(':');
+        nextProps.post.updateTime = date;
+      }
     }
+    nextState.editPostRebuild = false;
     return true;
   }
   postProcessingShow(){
@@ -52,7 +56,7 @@ class PerPost extends Component {
     });
   }
   postProcessingStop(){
-    this.setState({isActive: false},()=>{
+    this.setState({isActive: false, editPostRebuild: true},()=>{
       console.log('postProcessingShow: isActive' + this.state.isActive);
     });
   }

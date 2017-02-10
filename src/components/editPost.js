@@ -72,18 +72,6 @@ export default class EditPost extends Component{
       imgFile : input.files[0]
     });
   }
-  createTempPost(){
-    var tempPost = {
-      userid:{
-        idname: this.state.memberApp.state.idname,
-        imgURL: this.state.memberApp.state.imgURL
-      },
-      postcontent: this.state.oldPostcontent,
-      imgURL: this.state.oldimgURL,
-      updateTime: this.state.updateTime
-    }
-    this.state.memberApp.postPreprocess("previous",tempPost,this.state.memberApp.state.perPostIndex);
-  }
   imgUpload(callback){
     if(this.state.imgFile == null){
       callback();
@@ -108,9 +96,14 @@ export default class EditPost extends Component{
       });
     }
   }
+  showPostProcessing(){
+    console.log('editPost showPostProcessing');
+    this.state.memberApp.state.perPost.postProcessingShow();
+  }
+
   submitForm(){
     var _this = this;
-    _this.createTempPost();
+    _this.showPostProcessing();
     _this.imgUpload(function(){
       var xhttp = new XMLHttpRequest();
       var newPost = {
@@ -122,8 +115,11 @@ export default class EditPost extends Component{
       };
       xhttp.onreadystatechange = function () {
         if(xhttp.readyState == 4 && xhttp.status == 200){
-          _this.state.memberApp.refreshContent();
           _this.state.memberApp.reBuildPost();
+          _this.state.memberApp.refs.content.refresh(()=>{
+            console.log('editPost hidePostProcessing');
+            _this.state.memberApp.state.perPost.postProcessingStop();
+          });
         }
       }
       xhttp.open("PUT", "/post");

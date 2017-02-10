@@ -6,14 +6,19 @@ var Masonry = require('react-masonry-component');
 var masonryOptions = {
     transitionDuration: 1000
 };
-
-
 export default class Content extends Component{
   constructor(props){
     super(props);
     this.state = {
       posts:null
     };
+    this.refresh();
+  }
+  shouldComponentUpdate(nextProps,nextState){
+    console.log('shouldComponentUpdate in content');
+    return true;
+  }
+  refresh(callback){
     var xhttp = new XMLHttpRequest();
     var fromPost = 0;
     var count = 1;
@@ -22,13 +27,14 @@ export default class Content extends Component{
         var resObject = JSON.parse(xhttp.responseText);
         var object = resObject.map((value, index) => {
           var isMyPost;
-          if(this.props.userId == value.userid._id){isMyPost = 1;
-          }else{isMyPost = 0;}
+          if(this.props.userId == value.userid._id){isMyPost = true;
+          }else{isMyPost = false;}
+          console.log(value);
           return (<PerPost post={value} key={value._id} index={index} isMyPost={isMyPost} memberApp={this.props.memberApp}/>);
         });
+        (callback && typeof(callback) === "function") && callback();
         this.setState({posts:object});
         fromPost += count;
-        document.getElementById('loading').style.display = "none";
       }
     }
     xhttp.open("GET","/post?from=" + fromPost + "&count=" + count);
@@ -41,26 +47,6 @@ export default class Content extends Component{
       this.state.posts.splice(index,1,<TempPost post={post} key={index}/>);
     }
     this.setState({posts:this.state.posts});
-  }
-  refresh(){
-    var xhttp = new XMLHttpRequest();
-    var fromPost = 0;
-    var count = 1;
-    xhttp.onreadystatechange = () =>{
-      if(xhttp.readyState == 4 && xhttp.status == 200){
-        var resObject = JSON.parse(xhttp.responseText);
-        var object = resObject.map((value, index) => {
-          var isMyPost;
-          if(this.props.userId == value.userid._id){isMyPost = true;
-          }else{isMyPost = false;}
-          return (<PerPost post={value} key={value._id} index={index} isMyPost={isMyPost} memberApp={this.props.memberApp}/>);
-        });
-        this.setState({posts:object});
-        fromPost += count;
-      }
-    }
-    xhttp.open("GET","/post?from=" + fromPost + "&count=" + count);
-    xhttp.send();
   }
   render(){
     return(
