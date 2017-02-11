@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import PerPost from './perPost';
-import TempPost from './tempPost';
 var Masonry = require('react-masonry-component');
 
 var masonryOptions = {
@@ -30,22 +29,19 @@ export default class Content extends Component{
           if(this.props.userId == value.userid._id){isMyPost = true;
           }else{isMyPost = false;}
           console.log(value);
-          return (<PerPost post={value} key={value._id} index={index} isMyPost={isMyPost} memberApp={this.props.memberApp}/>);
+          return (<PerPost post={value} key={value._id} index={index} isMyPost={isMyPost} memberApp={this.props.memberApp} isTempPost={false}/>);
         });
         (callback && typeof(callback) === "function") && callback();
         this.setState({posts:object});
         fromPost += count;
+        document.getElementById('loading').style.display = "none";
       }
     }
     xhttp.open("GET","/post?from=" + fromPost + "&count=" + count);
     xhttp.send();
   }
-  addTempPost(type, post, index){
-    if (typeof type === "new") {
-      this.state.posts.unshift(<TempPost post={post} key={index}/>);
-    }else{
-      this.state.posts.splice(index,1,<TempPost post={post} key={index}/>);
-    }
+  addTempPost(post, index){
+    this.state.posts.unshift(<PerPost post={post} key={index} index={index} isMyPost={true} memberApp={this.props.memberApp} isTempPost={true}/>);
     this.setState({posts:this.state.posts});
   }
   render(){

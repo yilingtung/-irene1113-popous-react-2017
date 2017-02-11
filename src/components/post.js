@@ -7,16 +7,13 @@ const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/dxwnkzsxe/image/u
 export default class Post extends Component{
   constructor(props){
     super(props);
-    this.state = {};
+    this.state = {
+      memberApp: this.props.memberApp
+    };
     this.submitForm = this.submitForm.bind(this);
     this.changeFileName = this.changeFileName.bind(this);
     this.removeImg = this.removeImg.bind(this);
     this.changePostcontent = this.changePostcontent.bind(this);
-  }
-  componentWillMount(){
-    this.setState({
-      memberApp: this.props.memberApp
-    });
   }
   changePostcontent(){
     var textarea = document.getElementById('content_input');
@@ -62,9 +59,9 @@ export default class Post extends Component{
       },
       postcontent: this.state.postcontent,
       imgURL: this.state.imgURL,
-      updateTime: '剛剛'
+      updateTime: this.state.updateTime
     }
-    this.state.memberApp.postPreprocess("new",tempPost,0);
+    this.state.memberApp.refs.content.addTempPost(tempPost,0);
   }
   imgUpload(callback){
     if(this.state.imgFile == null){
@@ -97,24 +94,30 @@ export default class Post extends Component{
   submitForm(){
     if((this.state.postcontent != null) || (this.state.imgFile != null)){
       var _this = this;
-      _this.createTempPost();
-      _this.imgUpload(function(){
-        var xhttp = new XMLHttpRequest();
-        var d = new Date();
-        var newPost = {
-          postcontent : _this.state.postcontent,
-          imgURL: _this.state.imgURL,
-          updateTime : d.getTime().toString()
-        };
-        xhttp.onreadystatechange = function () {
-          if(xhttp.readyState == 4 && xhttp.status == 200){
-            _this.state.memberApp.refreshContent();
-            _this.state.memberApp.reBuildPost();
+      var d = new Date();
+      this.setState({
+        updateTime: d.getTime().toString()
+      },()=>{
+        console.log('1');
+        _this.createTempPost();
+        console.log(_this.state.memberApp.refs.content);
+        _this.imgUpload(function(){
+          var xhttp = new XMLHttpRequest();
+          var newPost = {
+            postcontent : _this.state.postcontent,
+            imgURL: _this.state.imgURL,
+            updateTime : _this.state.updateTime
+          };
+          xhttp.onreadystatechange = function () {
+            if(xhttp.readyState == 4 && xhttp.status == 200){
+              _this.state.memberApp.reBuildPost();
+              _this.state.memberApp.refs.content.refresh();
+            }
           }
-        }
-        xhttp.open("POST", "/post");
-        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        xhttp.send(JSON.stringify(newPost));
+          xhttp.open("POST", "/post");
+          xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+          xhttp.send(JSON.stringify(newPost));
+        });
       });
     }
   }

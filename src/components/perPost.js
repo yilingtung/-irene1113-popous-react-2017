@@ -27,11 +27,10 @@ class PerPost extends Component {
     this.props.post.updateTime = date;
   }
   shouldComponentUpdate(nextProps,nextState){
+    console.log(nextProps.post._id + ' shouldComponentUpdate ');
     var haveImg = Boolean(nextProps.post.imgURL);
     nextState.haveImg = haveImg;
     try {
-      var haveImg = Boolean(nextProps.post.imgURL);
-      nextState.haveImg = haveImg;
       var time = nextProps.post.updateTime;
       var date = new Date(JSON.parse(time));
       date = [(date.getMonth()+1).padLeft(),
@@ -98,8 +97,8 @@ class PerPost extends Component {
     return (
       <div className="col-sm-4 col-xs-12 image-element-class">
         <div className="panel panel-default">
-          <div className={this.state.isActive ? 'processing' :'null'}></div>
-          <div className={this.state.isActive ? 'processing-wrapper' :'null'}>
+          <div className={this.props.isTempPost ? ' processing' : [this.state.isActive ? ' processing' :' null']}></div>
+          <div className={this.props.isTempPost ? ' processing-wrapper' : [this.state.isActive ? ' processing-wrapper' :' null']}>
           {this.state.haveImg ? (
             <div className="panel-thumbnail">
               <img src={ this.props.post.imgURL } className="img-responsive margin-center" />
