@@ -10,7 +10,7 @@ class PerPost extends Component {
     super(props);
     var haveImg = Boolean(this.props.post.imgURL);
     this.state = {
-      isActive: false,
+      isProcessing: this.props.isProcessing,
       haveImg: haveImg,
       memberApp: this.props.memberApp
     };
@@ -46,13 +46,13 @@ class PerPost extends Component {
     return true;
   }
   postProcessingShow(){
-    this.setState({isActive: true},()=>{
-      console.log('postProcessingShow: isActive' + this.state.isActive);
+    this.setState({isProcessing: true},()=>{
+      console.log('postProcessingShow: isActive' + this.state.isProcessing);
     });
   }
   postProcessingStop(){
-    this.setState({isActive: false},()=>{
-      console.log('postProcessingShow: isActive' + this.state.isActive);
+    this.setState({isProcessing: false},()=>{
+      console.log('postProcessingShow: isActive' + this.state.isProcessing);
     });
   }
   deletePost(){
@@ -97,8 +97,8 @@ class PerPost extends Component {
     return (
       <div className="col-sm-4 col-xs-12 image-element-class">
         <div className="panel panel-default">
-          <div className={this.props.isTempPost ? ' processing' : [this.state.isActive ? ' processing' :' null']}></div>
-          <div className={this.props.isTempPost ? ' processing-wrapper' : [this.state.isActive ? ' processing-wrapper' :' null']}>
+          <div className={this.state.isProcessing ? ' processing' :' null'}></div>
+          <div className={this.state.isProcessing ? ' processing-wrapper' :' null'}>
           {this.state.haveImg ? (
             <div className="panel-thumbnail">
               <img src={ this.props.post.imgURL } className="img-responsive margin-center" />

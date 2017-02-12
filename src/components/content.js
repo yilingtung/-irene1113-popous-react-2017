@@ -29,7 +29,7 @@ export default class Content extends Component{
           if(this.props.userId == value.userid._id){isMyPost = true;
           }else{isMyPost = false;}
           console.log(value);
-          return (<PerPost post={value} key={value._id} index={index} isMyPost={isMyPost} memberApp={this.props.memberApp} isTempPost={false}/>);
+          return (<PerPost post={value} key={value._id} index={index} isMyPost={isMyPost} memberApp={this.props.memberApp} isProcessing={false}/>);
         });
         (callback && typeof(callback) === "function") && callback();
         this.setState({posts:object});
@@ -41,7 +41,7 @@ export default class Content extends Component{
     xhttp.send();
   }
   addTempPost(post, index){
-    this.state.posts.unshift(<PerPost post={post} key={index} index={index} isMyPost={true} memberApp={this.props.memberApp} isTempPost={true}/>);
+    this.state.posts.unshift(<PerPost post={post} key={index} index={index} isMyPost={true} memberApp={this.props.memberApp} isProcessing={true}/>);
     this.setState({posts:this.state.posts});
   }
   render(){
