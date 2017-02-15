@@ -3,22 +3,20 @@ import React, {Component} from 'react';
 export default class TopNav extends Component{
   constructor(props){
     super(props);
-    this.state = {};
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = () =>{
-      if(xhttp.readyState == 4 && xhttp.status == 200){
-        var object = JSON.parse(xhttp.responseText);
-        this.setState(
-          {
-            idname: object.idname,
-            id: object._id,
-            imgURL: object.imgURL
-          }
-        );
-      }
-    }
-    xhttp.open("GET","/memberInfo");
-    xhttp.send();
+    this.state = {
+      memberApp: this.props.memberApp
+    };
+    this.setPostModal = this.setPostModal.bind(this);
+  }
+  setPostModal(){
+    this.state.memberApp.refs.postModal.setState({
+      postcontent: '',
+      imgURL: null,
+      haveImg: false,
+      imgFile: null,
+      imgFileName: null,
+      inputValue: null
+    });
   }
   render(){
     return(
@@ -32,7 +30,7 @@ export default class TopNav extends Component{
             </button>
             <a href="/member" className="navbar-brand logo">P</a>
             <div id="navbar-userphoto-div" className="visible-xs">
-                <img src={this.state.imgURL} id="navbar-userphoto" className="img-responsive displayed" alt="" />
+                <img src={this.state.memberApp.state.imgURL} id="navbar-userphoto" className="img-responsive displayed" alt="" />
             </div>
           </div>
           <nav className="collapse navbar-collapse" role="navigation">
@@ -46,7 +44,7 @@ export default class TopNav extends Component{
           </form>
           <ul className="nav navbar-nav">
             <li>
-              <a href="#postModal" role="button" data-toggle="modal"><i className="glyphicon glyphicon-plus"></i> Post</a>
+              <a href="#postModal" onClick={this.setPostModal} role="button" data-toggle="modal"><i className="glyphicon glyphicon-plus"></i> Post</a>
             </li>
           </ul>
           <ul className="nav navbar-nav navbar-right margin-right-0">

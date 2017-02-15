@@ -7,8 +7,8 @@ var express = require('express'),
     memberInfo = require('../controllers/memberInfo'),
     postInfo = require('../controllers/postInfo'),
     del = require('../controllers/del'),
-    perPostInfo = require('../controllers/perPostInfo'),
     updatePost = require('../controllers/updatePost'),
+    newPostInfo = require('../controllers/newPostInfo'),
     router  = express.Router(),
     path = require('path');
 
@@ -28,5 +28,5 @@ router.route('/post').post(post)
                      .get(postInfo)
                      .put(updatePost);
 router.route('/memberInfo').get(memberInfo);
-router.route('/perPostInfo').get(perPostInfo);
+router.route('/newPostInfo').get(newPostInfo);
 module.exports = router;

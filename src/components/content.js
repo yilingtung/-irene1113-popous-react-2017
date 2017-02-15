@@ -11,28 +11,21 @@ export default class Content extends Component{
     this.state = {
       posts:null
     };
-    this.refresh();
-  }
-  shouldComponentUpdate(nextProps,nextState){
-    console.log('shouldComponentUpdate in content');
-    return true;
-  }
-  refresh(callback){
     var xhttp = new XMLHttpRequest();
     var fromPost = 0;
     var count = 1;
     xhttp.onreadystatechange = () =>{
       if(xhttp.readyState == 4 && xhttp.status == 200){
         var resObject = JSON.parse(xhttp.responseText);
-        var object = resObject.map((value, index) => {
+        var keyArray = [];
+        var object = resObject.map((value) => {
           var isMyPost;
           if(this.props.userId == value.userid._id){isMyPost = true;
           }else{isMyPost = false;}
-          console.log(value);
-          return (<PerPost post={value} key={value._id} index={index} isMyPost={isMyPost} memberApp={this.props.memberApp} isProcessing={false}/>);
+          keyArray.push(value._id);
+          return (<PerPost post={value} key={value._id} isMyPost={isMyPost} memberApp={this.props.memberApp} isProcessing={false}/>);
         });
-        (callback && typeof(callback) === "function") && callback();
-        this.setState({posts:object});
+        this.setState({posts:object, postsKey: keyArray});
         fromPost += count;
         document.getElementById('loading').style.display = "none";
       }
@@ -40,8 +33,35 @@ export default class Content extends Component{
     xhttp.open("GET","/post?from=" + fromPost + "&count=" + count);
     xhttp.send();
   }
-  addTempPost(post, index){
-    this.state.posts.unshift(<PerPost post={post} key={index} index={index} isMyPost={true} memberApp={this.props.memberApp} isProcessing={true}/>);
+  shouldComponentUpdate(nextProps,nextState){
+    return true;
+  }
+  refresfNewPost(userid, updateTime){
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = () =>{
+      if(xhttp.readyState == 4 && xhttp.status == 200){
+        var resObject = JSON.parse(xhttp.responseText);
+        this.state.posts.splice(0,1,<PerPost post={resObject} key={resObject._id} isMyPost={true} memberApp={this.props.memberApp} isProcessing={false}/>);
+        this.state.postsKey.splice(0,1,resObject._id);
+        this.setState({
+          posts:this.state.posts,
+          postsKey: this.state.postsKey
+        });
+      }
+    }
+    xhttp.open("GET","/newPostInfo?userid=" + userid + "&updateTime=" + updateTime);
+    xhttp.send();
+  }
+  addNewPost(post, index){
+    this.state.posts.unshift(<PerPost post={post} key={index} isMyPost={true} memberApp={this.props.memberApp} isProcessing={true}/>);
+    this.state.postsKey.unshift(index);
+    this.setState({
+      posts: this.state.posts,
+      postsKey: this.state.postsKey
+    });
+  }
+  refreshPostsState(index){
+    this.state.posts.splice(index,1,null);
     this.setState({posts:this.state.posts});
   }
   render(){

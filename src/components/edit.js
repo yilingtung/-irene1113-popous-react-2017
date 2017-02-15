@@ -4,81 +4,55 @@ import request from 'superagent';
 const CLOUDINARY_UPLOAD_PRESET = 'popousUserImg';
 const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/dxwnkzsxe/image/upload';
 
-
 export default class Edit extends Component{
   constructor(props){
     super(props);
-    this.state = {};
+    this.state = {
+      memberApp: this.props.memberApp
+    };
     this.submitForm = this.submitForm.bind(this);
-    this.changeFileName1 = this.changeFileName1.bind(this);
-    this.memberAppReBuildEdit = this.memberAppReBuildEdit.bind(this);
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = () =>{
-      if(xhttp.readyState == 4 && xhttp.status == 200){
-        var object = JSON.parse(xhttp.responseText);
-        this.setState(
-          {
-            idname: object.idname,
-            img: '',
-            imgURL: object.imgURL
-          }
-        );
-      }
-    }
-    xhttp.open("GET","/memberInfo");
-    xhttp.send();
+    this.changeFileName = this.changeFileName.bind(this);
   }
-  changeFileName1(){
-    this.canvas = document.getElementById("canvas");
-    this.ctx = this.canvas.getContext("2d");
-    var input = document.getElementById('edit-img-input');
-    document.getElementById('edit-img-name').innerHTML = input.files[0].name;
+  shouldComponentUpdate(nextProps,nextState){
+    return true;
+  }
+  changeFileName(event){
     var output = document.getElementById('edit-img-preview');
-    if(output.className.search("display-none") == -1){
-      output.className += " display-none";
-    }
-    this.canvas.classList.remove("display-none");
     output.onload = function(){
-      this.setState({
-        imgFile : input.files[0]
-      });
       var width = output.naturalWidth;
       var height = output.naturalHeight;
       if(width <= height){
         var mini = width;
-        console.log(width + ";" + height + ";" + mini);
-        var img = new Image();
-        img.onload = function() {
-          this.clipImage(img, 0, (height/2)-(mini/2), mini, mini);
-        };
-        img.onload = img.onload.bind(this);
-        img.src = output.src;
-      }
-      else{
+      }else{
         var mini = height;
-        console.log(width + ";" + height + ";" + mini);
-        var img = new Image();
-        img.onload = function() {
-          this.clipImage(img, (width/2)-(mini/2), 0, mini, mini);
-        };
-        img.onload = img.onload.bind(this);
-        img.src = output.src;
       }
+      console.log('width: ' + width + "; height: " + height + "; mini: " + mini);
+      var img = new Image();
+      img.setAttribute('crossOrigin', 'anonymous');
+      img.onload = function() {
+        if(width <= height){
+          this.clipImage(img, 0, (height/2)-(mini/2), mini, mini);
+        }else{
+          this.clipImage(img, (width/2)-(mini/2), 0, mini, mini);
+        }
+      };
+      img.onload = img.onload.bind(this);
+      img.src = output.src;
     };
     output.onload = output.onload.bind(this);
-    output.src = URL.createObjectURL(input.files[0]);
-  }
-
-  clipImage(image, clipX, clipY, clipWidth, clipHeight) {
-    this.ctx.drawImage(image, clipX, clipY, clipWidth, clipHeight,
-    0, 0, 239, 239);
     this.setState({
-      imgContentData : this.canvas.toDataURL()
+      haveImg: true,
+      imgURL: URL.createObjectURL(event.target.files[0]),
+      imgFile: event.target.files[0],
+      imgFileName: event.target.files[0].name,
+      inputValue: event.target.value
     });
   }
-  memberAppReBuildEdit(){
-    var memberApp = this.props.memberApp;
-    memberApp.reBuildEdit();
+  clipImage(image, clipX, clipY, clipWidth, clipHeight) {
+    document.getElementById("canvas").getContext("2d").drawImage(image, clipX, clipY, clipWidth, clipHeight, 0, 0, 239, 239);
+    this.setState({
+      imgContentData : document.getElementById("canvas").toDataURL()
+    });
   }
   imgUpload(callback){
     if(this.state.imgFile == null){
@@ -87,13 +61,11 @@ export default class Edit extends Component{
       let upload = request.post(CLOUDINARY_UPLOAD_URL)
                  .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
                  .field('file', this.state.imgContentData);
-      console.log('upload to cloudinary...');
       upload.end((err, response) => {
         if (err) {
           console.error(err);
         }
         console.log('upload completed!');
-        console.log('response.body.secure_url: '+response.body.secure_url);
         if (response.body.secure_url !== '') {
           this.setState({
             imgURL: response.body.secure_url
@@ -134,7 +106,7 @@ export default class Edit extends Component{
         idname: _this.state.newidname,
         imgURL: _this.state.imgURL
       };
-      xhttp.open("PUT", "/member");
+      xhttp.open("PUT", "/memberInfo");
       xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
       xhttp.send(JSON.stringify(newUserInfo));
     });
@@ -145,7 +117,7 @@ export default class Edit extends Component{
     		<div className="modal-dialog">
     			<div className="modal-content">
     				<div className="modal-header">
-    					<button onClick={this.memberAppReBuildEdit} type="button" className="close"  data-dismiss="modal" aria-hidden="true">×</button>
+    					<button type="button" className="close"  data-dismiss="modal" aria-hidden="true">×</button>
     					<i className="fa fa-pencil-square-o" aria-hidden="true"></i><span className="edit-title">編輯你的個人資料</span>
     				</div>
     				<div className="modal-body">
@@ -153,8 +125,8 @@ export default class Edit extends Component{
     						<div className="form-group">
     							<div className= "row form-row-magin">
     								<div id="edit-userphoto-div" className= "margin-center">
-                      <canvas id="canvas" width="239" height="239" className="display-none img-responsive displayed margin-center"></canvas>
-    									<img src={this.state.imgURL} id="edit-img-preview" className="img-responsive displayed margin-center" alt="" />
+                      <canvas id="canvas" width="239" height="239" className={this.state.haveImg ? ('img-responsive displayed margin-center') : ('display-none img-responsive displayed margin-center')}></canvas>
+    									<img src={this.state.imgURL} id="edit-img-preview" className={this.state.haveImg ? ('display-none img-responsive displayed margin-center') : ('img-responsive displayed margin-center')} alt="" />
     								</div>
     							</div>
     							<div className="row form-row-magin">
@@ -177,9 +149,9 @@ export default class Edit extends Component{
     								<div className="col-xs-9 col-sm-6 margin-center">
     									<div className="image-upload pull-left list-inline">
     										<label htmlFor="edit-img-input">
-    											<i className="fa fa-file-image-o fa-2x" aria-hidden="true">  <span id="edit-img-name" className="itag-img">選擇一張照片</span></i>
+    											<i className="fa fa-file-image-o fa-2x" aria-hidden="true">  <span id="edit-img-name" className="itag-img">{this.state.imgFileName ? (this.state.imgFileName) : ('選擇一張照片')}</span></i>
     				    				</label>
-    				    				<input id="edit-img-input" type="file" name="userPhoto" onChange={this.changeFileName1} />
+    				    				<input id="edit-img-input" type="file" name="userPhoto" value={this.state.inputValue} onChange={this.changeFileName}/>
     									</div>
     								</div>
 

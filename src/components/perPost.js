@@ -8,14 +8,21 @@ class PerPost extends Component {
       return len > 0? new Array(len).join(chr || '0')+this : this;
     }
     super(props);
-    var haveImg = Boolean(this.props.post.imgURL);
     this.state = {
-      isProcessing: this.props.isProcessing,
-      haveImg: haveImg,
-      memberApp: this.props.memberApp
+      memberApp: this.props.memberApp,
+      content: this.props.memberApp.refs.content,
+      editPost: this.props.memberApp.refs.editPost,
+      post: this.props.post,
+      index: '',
+      postcontent: this.props.post.postcontent,
+      imgURL: this.props.post.imgURL,
+      haveImg: false,
+      isProcessing: this.props.isProcessing
     };
+    if(this.state.imgURL){this.state.haveImg = true;}
     this.deletePost = this.deletePost.bind(this);
-    this.passPostInfo = this.passPostInfo.bind(this);
+    this.getIndex = this.getIndex.bind(this);
+    this.setEditPostModal = this.setEditPostModal.bind(this);
     var time = this.props.post.updateTime;
     var date = new Date(JSON.parse(time));
     date = [(date.getMonth()+1).padLeft(),
@@ -27,9 +34,11 @@ class PerPost extends Component {
     this.props.post.updateTime = date;
   }
   shouldComponentUpdate(nextProps,nextState){
-    console.log(nextProps.post._id + ' shouldComponentUpdate ');
-    var haveImg = Boolean(nextProps.post.imgURL);
-    nextState.haveImg = haveImg;
+    if(nextState.imgURL){
+      nextState.haveImg = true;
+    }else {
+      nextState.haveImg = false;
+    }
     try {
       var time = nextProps.post.updateTime;
       var date = new Date(JSON.parse(time));
@@ -46,35 +55,20 @@ class PerPost extends Component {
     return true;
   }
   postProcessingShow(){
-    this.setState({isProcessing: true},()=>{
-      console.log('postProcessingShow: isActive' + this.state.isProcessing);
-    });
+    this.setState({isProcessing: true});
   }
   postProcessingStop(){
-    this.setState({isProcessing: false},()=>{
-      console.log('postProcessingShow: isActive' + this.state.isProcessing);
-    });
+    this.setState({isProcessing: false});
   }
   deletePost(){
-    console.log(this.props.post._id);
     var _this = this;
-    this.state.memberApp.setState({
-      perPostId: this.props.post._id,
-      perPostIndex: this.props.index
-    });
     _this.postProcessingShow();
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
       if(xhttp.readyState == 4 && xhttp.status == 200){
-        console.log('delete');
-        console.log(_this.state.isActive);
         var o = JSON.parse(xhttp.responseText);
-        console.log(o);
         if(o.delete_status == 1){
-          console.log(o.delete_message);
-          _this.state.memberApp.refreshContent();
-        }else{
-          console.log('delete error');
+          _this.spliceArray();
         }
       }
     }
@@ -84,13 +78,30 @@ class PerPost extends Component {
     xhttp.open("GET", "/del?_id=" + post._id);
     xhttp.send();
   }
-  passPostInfo(){
-    this.state.memberApp.setState({
-      perPost: this,
-      perPostId: this.props.post._id,
-      perPostIndex: this.props.index
-    },()=>{
-      this.state.memberApp.reBuildEditPost();
+  setEditPostModal(){
+    this.state.editPost.setState({
+      postself: this,
+      _id: this.state.post._id,
+      postcontent: this.state.postcontent,
+      imgURL: this.state.imgURL,
+      haveImg: this.state.haveImg,
+      imgFile: null,
+      imgFileName: null,
+      inputValue: null
+    });
+  }
+  getIndex(){
+    var array = this.state.content.state.postsKey;
+    var index = array.indexOf(this.props.post._id);
+    this.state.index = index;
+    console.log(this.state.index);
+  }
+  spliceArray(){
+    this.state.content.state.posts.splice(this.state.index,1);
+    this.state.content.state.postsKey.splice(this.state.index,1);
+    this.state.content.setState({
+      posts: this.state.content.state.posts,
+      postsKey: this.state.content.state.postsKey
     });
   }
   render(){
@@ -101,11 +112,11 @@ class PerPost extends Component {
           <div className={this.state.isProcessing ? ' processing-wrapper' :' null'}>
           {this.state.haveImg ? (
             <div className="panel-thumbnail">
-              <img src={ this.props.post.imgURL } className="img-responsive margin-center" />
+              <img src={ this.state.imgURL } className="img-responsive margin-center" />
             </div>
           ):(
             <div className="panel-body">
-              <p >{ this.props.post.postcontent }</p>
+              <p >{ this.state.postcontent }</p>
             </div>
           )}
             <div className="panel-body-name">
@@ -124,18 +135,18 @@ class PerPost extends Component {
             <div className="panel-body">
             {this.props.isMyPost > 0 &&
               <div className="more">
-                <a role="button" data-toggle="dropdown">
+                <a onClick={this.getIndex} role="button" data-toggle="dropdown">
                   <i className="fa fa-ellipsis-h" aria-hidden="true"></i>
                 </a>
                 <ul className="dropdown-menu">
-                  <li><a onClick={this.passPostInfo} href="#editPostModal" role="button" data-toggle="modal">編輯</a></li>
+                  <li><a onClick={this.setEditPostModal} href="#editPostModal" role="button" data-toggle="modal">編輯</a></li>
                   <li><a onClick={this.deletePost} role="button">刪除</a></li>
                 </ul>
               </div>
             }
               <p>
               {this.state.haveImg > 0 &&
-                this.props.post.postcontent
+                this.state.postcontent
               }
               </p>
             </div>

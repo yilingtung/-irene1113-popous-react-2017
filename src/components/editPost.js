@@ -4,72 +4,35 @@ import request from 'superagent';
 const CLOUDINARY_UPLOAD_PRESET = 'popousUserImg';
 const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/dxwnkzsxe/image/upload';
 
-
 export default class EditPost extends Component{
   constructor(props){
     super(props);
     this.state = {
       memberApp: this.props.memberApp
     };
-    this.changePostcontent = this.changePostcontent.bind(this);
     this.removeImg = this.removeImg.bind(this);
     this.changeFileName = this.changeFileName.bind(this);
     this.submitForm = this.submitForm.bind(this);
   }
-  componentWillMount(){
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = () =>{
-      if(xhttp.readyState == 4 && xhttp.status == 200){
-        var object = JSON.parse(xhttp.responseText);
-        console.log(object);
-        this.setState(
-          {
-            _id: object._id,
-            userid: object.userid,
-            postcontent: object.postcontent,
-            imgURL: object.imgURL,
-            updateTime: object.updateTime,
-            mgFile: null,
-            oldPostcontent: object.postcontent,
-            oldimgURL: object.imgURL
-          }
-        );
-      }
-    }
-    xhttp.open("GET","/perPostInfo?_id=" + this.state.memberApp.state.perPostId);
-    xhttp.send();
-
+  shouldComponentUpdate(nextProps,nextState){
+    return true;
   }
-  changePostcontent(){
-    var textarea = document.getElementById('content_input');
+  changeFileName(event){
     this.setState({
-      postcontent : textarea.value
+      haveImg: true,
+      imgURL: URL.createObjectURL(event.target.files[0]),
+      imgFile: event.target.files[0],
+      imgFileName: event.target.files[0].name,
+      inputValue: event.target.value
     });
   }
   removeImg(){
-    var input = document.getElementById('editPost_img-input');
-    input.value = "";
-    document.getElementById('editPost_post-img-name').innerHTML = "新增圖片";
-    var output = document.getElementById('editPost_output-img-preview');
-    output.src = "";
-    var div = document.getElementById("editPost_post-img-div");
-    div.className += " display-none";
-    div.classList.remove("img-div-style");
     this.setState({
+      haveImg: false,
       imgURL: null,
-      imgFile : null
-    });
-  }
-  changeFileName(){
-    var input = document.getElementById('editPost_img-input');
-    document.getElementById('editPost_post-img-name').innerHTML = input.files[0].name;
-    var output = document.getElementById('editPost_output-img-preview');
-    output.src = URL.createObjectURL(input.files[0]);
-    var div = document.getElementById("editPost_post-img-div");
-    div.className += " img-div-style";
-    div.classList.remove("display-none");
-    this.setState({
-      imgFile : input.files[0]
+      imgFile: null,
+      imgFileName: null,
+      inputValue:null
     });
   }
   imgUpload(callback){
@@ -79,13 +42,11 @@ export default class EditPost extends Component{
       let upload = request.post(CLOUDINARY_UPLOAD_URL)
                  .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
                  .field('file', this.state.imgFile);
-      console.log('upload to cloudinary...');
       upload.end((err, response) => {
         if (err) {
           console.error(err);
         }
         console.log('upload completed!');
-        console.log('response.body.secure_url: '+response.body.secure_url);
         if (response.body.secure_url !== '') {
           this.setState({
             imgURL: response.body.secure_url
@@ -96,14 +57,10 @@ export default class EditPost extends Component{
       });
     }
   }
-  showPostProcessing(){
-    console.log('editPost showPostProcessing');
-    this.state.memberApp.state.perPost.postProcessingShow();
-  }
 
   submitForm(){
     var _this = this;
-    _this.showPostProcessing();
+    this.state.postself.postProcessingShow();
     _this.imgUpload(function(){
       var xhttp = new XMLHttpRequest();
       var newPost = {
@@ -115,10 +72,11 @@ export default class EditPost extends Component{
       };
       xhttp.onreadystatechange = function () {
         if(xhttp.readyState == 4 && xhttp.status == 200){
-          _this.state.memberApp.reBuildPost();
-          _this.state.memberApp.refs.content.refresh(()=>{
-            console.log('editPost hidePostProcessing');
-            _this.state.memberApp.state.perPost.postProcessingStop();
+          _this.state.postself.setState({
+            postcontent: _this.state.postcontent,
+            imgURL: _this.state.imgURL
+          }, () => {
+            _this.state.postself.postProcessingStop();
           });
         }
       }
@@ -142,27 +100,20 @@ export default class EditPost extends Component{
         	            <div className="form-group">
         	              <textarea id="editPost_content_input" value={this.state.postcontent} onChange={(event) => this.setState({postcontent: event.target.value})} name="postcontent" type="text" className="form-control input-lg" rows="4" placeholder="想分享什麼？"></textarea>
         								<div className="row">
-                        {this.state.imgURL?(
-                          <div id="editPost_post-img-div" className="img-hover img-div-style col-sm-3 col-xs-3">
+                          <div id="editPost_post-img-div" className={this.state.haveImg ? ('img-div-style img-hover col-sm-3 col-xs-3') : ('display-none img-hover col-sm-3 col-xs-3')}>
         										<img src={this.state.imgURL} id="editPost_output-img-preview" className="img-responsive margin-center"/>
         										<button onClick={this.removeImg} id="editPost_delete-btn" type="button" className="btn-img-delete close">×</button>
         									</div>
-                        ):(
-                          <div id="editPost_post-img-div" className="img-hover display-none col-sm-3 col-xs-3">
-        										<img src={this.state.imgURL} id="editPost_output-img-preview" className="img-responsive margin-center"/>
-        										<button onClick={this.removeImg} id="editPost_delete-btn" type="button" className="btn-img-delete close">×</button>
-        									</div>
-                        )}
-        								</div>
+                        </div>
         	            </div>
 
         	      </div>
                 <div className="modal-footer">
     							<div className="image-upload">
     								<label htmlFor="editPost_img-input">
-    		        			<i className="fa fa-picture-o" aria-hidden="true">  <span id="editPost_post-img-name">換一張圖片</span></i>
+    		        			<i className="fa fa-picture-o" aria-hidden="true">  <span id="editPost_post-img-name">{this.state.imgFileName ? (this.state.imgFileName) : ('換一張圖片')}</span></i>
     		    				</label>
-    		    				<input id="editPost_img-input" type="file" name="userPhoto" onChange={this.changeFileName}/>
+    		    				<input id="editPost_img-input" type="file" name="userPhoto" value={this.state.inputValue} onChange={this.changeFileName}/>
     							</div>
     		          <button onClick={this.submitForm} type="submit" value="Upload userpost" className="submitBtn" data-dismiss="modal" aria-hidden="true">儲存</button>
         	      </div>
