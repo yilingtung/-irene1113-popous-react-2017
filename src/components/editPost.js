@@ -87,14 +87,14 @@ export default class EditPost extends Component{
   }
   render(){
     return(
-      <div id="editPostModal" className="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+      <div id="editPostModal" className="modal fade" tabIndex="-1" role="dialog" aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content">
               <div className="modal-header">
                   <button type="button" className="close" data-dismiss="modal" aria-hidden="true">×</button>
         			編輯貼文
               </div>
-        			<form id="editPost_post_form" className="form center-block" method="post" action="/post" enctype="multipart/form-data">
+        			<form id="editPost_post_form" className="form center-block" method="post" action="/post" encType="multipart/form-data">
         	      <div className="modal-body">
 
         	            <div className="form-group">

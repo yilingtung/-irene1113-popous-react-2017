@@ -121,7 +121,7 @@ export default class Edit extends Component{
     					<i className="fa fa-pencil-square-o" aria-hidden="true"></i><span className="edit-title">編輯你的個人資料</span>
     				</div>
     				<div className="modal-body">
-    					<form id="edit-person-form" className="form center-block" method="put" enctype="multipart/form-data">
+    					<form id="edit-person-form" className="form center-block" method="put" encType="multipart/form-data">
     						<div className="form-group">
     							<div className= "row form-row-magin">
     								<div id="edit-userphoto-div" className= "margin-center">

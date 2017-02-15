@@ -73,7 +73,7 @@ export default class SignUp extends Component{
                             <div className="control-group col-md-8 col-sm-10 col-xs-10">
                                 <input value={this.state.idname}
                                       onChange={(event) => this.setState({idname: event.target.value})} id="signup-id" name="idname" type="text" className="login-field" placeholder="例：王小明" />
-                                <label className="login-field-icon fui-user" for="signup-id"></label>
+                                <label className="login-field-icon fui-user" htmlFor="signup-id"></label>
                             </div>
                           </div>
                           <div className="row">
@@ -83,7 +83,7 @@ export default class SignUp extends Component{
                             <div className="control-group col-md-8 col-sm-10 col-xs-10">
                             <input value={this.state.username}
                                   onChange={(event) => this.setState({username: event.target.value})} id="signup-name" name="username" type="text" className="login-field" placeholder="example123" />
-                                <label className="login-field-icon fui-user" for="signup-name"></label>
+                                <label className="login-field-icon fui-user" htmlFor="signup-name"></label>
                             </div>
                           </div>
                           <div className="row">
@@ -93,7 +93,7 @@ export default class SignUp extends Component{
                             <div className="control-group col-md-8 col-sm-10 col-xs-10">
                             <input value={this.state.password}
                                   onChange={(event) => this.setState({password: event.target.value})} id="signup-pass" name="password" type="password" className="login-field" placeholder="example567" />
-                                <label className="login-field-icon fui-lock" for="signup-pass"></label>
+                                <label className="login-field-icon fui-lock" htmlFor="signup-pass"></label>
                             </div>
                           </div>
                           <div className="row">
