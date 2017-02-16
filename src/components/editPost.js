@@ -77,6 +77,7 @@ export default class EditPost extends Component{
             imgURL: _this.state.imgURL
           }, () => {
             _this.state.postself.postProcessingStop();
+            _this.state.memberApp.refs.content.callMasonry();
           });
         }
       }

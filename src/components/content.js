@@ -11,6 +11,7 @@ export default class Content extends Component{
     this.state = {
       posts:null
     };
+    this.callMasonry = this.callMasonry.bind(this);
     var xhttp = new XMLHttpRequest();
     var fromPost = 0;
     var count = 1;
@@ -64,6 +65,9 @@ export default class Content extends Component{
     this.state.posts.splice(index,1,null);
     this.setState({posts:this.state.posts});
   }
+  callMasonry(){
+    this.refs.masonry.masonry.layout();
+  }
   render(){
     return(
       <div className="padding height-100">
@@ -71,6 +75,7 @@ export default class Content extends Component{
             <div id="loading" className="loading"></div>
 
             <Masonry
+              ref="masonry"
               className={'my-gallery-class'} // default ''
               elementType={'div'} // default 'div'
               options={masonryOptions} // default {}

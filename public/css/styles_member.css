@@ -45,6 +45,7 @@
 }
 .panel-body{
   padding: 15px 30px 15px 15px;
+  word-break: break-all;
 }
 .post-userimg{
   width: 40px;

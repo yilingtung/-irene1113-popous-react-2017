@@ -112,7 +112,7 @@ class PerPost extends Component {
           <div className={this.state.isProcessing ? ' processing-wrapper' :' null'}>
           {this.state.haveImg ? (
             <div className="panel-thumbnail">
-              <img src={ this.state.imgURL } className="img-responsive margin-center" />
+              <img onLoad={this.state.content.callMasonry} src={ this.state.imgURL } className="img-responsive margin-center" />
             </div>
           ):(
             <div className="panel-body">
