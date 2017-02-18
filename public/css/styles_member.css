@@ -35,8 +35,7 @@
   margin-right: 0 !important;
 }
 .panel-body-margin-bottom{
-  margin-bottom: -5px;
-  padding-top: 5px;
+  padding: 5px 0px;
 }
 .panel-body-name{
   padding: 0 15px 0 15px;
@@ -47,28 +46,42 @@
   padding: 15px 30px 15px 15px;
   word-break: break-all;
 }
-.post-userimg{
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  float: left;
-  background-color: #fff;
-}
 .post-time{
   float: right;
-  margin: 14px;
-  color: #0c7a9b;
   font-size: 12px;
+  line-height: 32px;
+}
+.post-time-normal{
+  color: #9d9d9d;
+}
+.post-time-active{
+  color: #ed602e;
+}
+.post-time i{
+  cursor: pointer;
 }
 .post-time p{
-  margin: 0;
+  display: inline;
 }
 .post-user-name{
   float: left;
   font-weight: 600;
 }
 .post-user-name>p{
-  margin: 14px;
+  margin: 0px 10px;
+  line-height: 32px;
+}
+.post-user-img{
+  width: 32px;
+  height: 32px;
+  float: left;
+}
+.post-user-img img{
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  float: left;
+  background-color: #fff;
 }
 .edit-i{
   margin: 0;
@@ -108,16 +121,11 @@ div.img-hover button {
   margin-left: auto;
   margin-right: auto;
 }
-.image-upload > input
-{
-    display: none;
-
+.image-upload > input{
+  display: none;
 }
 .edit-title{
   margin-left: 5px;
-}
-.edit-name{
-
 }
 .itag-img{
   font-size: 16px;
@@ -550,6 +558,25 @@ small.text-muted {
 }
 
 /* adjust the contents on smaller devices */
+@media (max-width: 1200px) {
+
+  .column .padding {
+    padding: 7px;
+  }
+
+  .full{
+	padding-top:20px;
+  }
+
+  .navbar-blue {
+	background-color:#4EAFCD;
+    top:0;
+    width:100%;
+    position:relative;
+  }
+
+}
+
 @media (max-width: 768px) {
 
   .column .padding {

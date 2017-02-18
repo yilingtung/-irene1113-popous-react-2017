@@ -34,8 +34,7 @@ export default class MemberApp extends Component {
         <div className="wrapper">
           <div className="box">
             <div className="row row-offcanvas row-offcanvas-left">
-              <Sidebar ref="sidebar" memberApp={this}/>
-              <div className="column col-sm-10 col-xs-12" id="main">
+              <div className="column col-sm-12 col-xs-12" id="main">
                   <TopNav ref="topNav" memberApp={this}/>
                   <Content ref="content" userId={this.state.id} memberApp={this}/>
               </div>

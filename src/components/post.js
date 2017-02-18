@@ -80,7 +80,8 @@ export default class Post extends Component{
           var newPost = {
             postcontent : _this.state.postcontent,
             imgURL: _this.state.imgURL,
-            updateTime : _this.state.updateTime
+            updateTime : _this.state.updateTime,
+            like: []
           };
           xhttp.onreadystatechange = function () {
             if(xhttp.readyState == 4 && xhttp.status == 200){

@@ -17,12 +17,16 @@ class PerPost extends Component {
       postcontent: this.props.post.postcontent,
       imgURL: this.props.post.imgURL,
       haveImg: false,
-      isProcessing: this.props.isProcessing
+      isProcessing: this.props.isProcessing,
+      like: this.props.post.like,
+      likeLen: this.props.post.likeLen,
+      iLike: this.props.post.iLike
     };
     if(this.state.imgURL){this.state.haveImg = true;}
     this.deletePost = this.deletePost.bind(this);
     this.getIndex = this.getIndex.bind(this);
     this.setEditPostModal = this.setEditPostModal.bind(this);
+    this.likeToggle = this.likeToggle.bind(this);
     var time = this.props.post.updateTime;
     var date = new Date(JSON.parse(time));
     date = [(date.getMonth()+1).padLeft(),
@@ -72,10 +76,7 @@ class PerPost extends Component {
         }
       }
     }
-    var post = {
-      _id: this.props.post._id.toString()
-    };
-    xhttp.open("GET", "/del?_id=" + post._id);
+    xhttp.open("GET", "/del?_id=" + this.props.post._id);
     xhttp.send();
   }
   setEditPostModal(){
@@ -104,9 +105,39 @@ class PerPost extends Component {
       postsKey: this.state.content.state.postsKey
     });
   }
+  likeToggle(){
+    console.log(this.state.like);
+    var _this = this;
+    var likeList = this.state.like;
+    if(this.state.iLike == true){
+      var index = likeList.indexOf(this.state.memberApp.state.id);
+      likeList.splice(index,1);
+      this.setState({
+        iLike: false,
+        like: likeList,
+        likeLen: this.state.likeLen - 1
+      });
+    }else{
+      likeList.push(this.state.memberApp.state.id);
+      this.setState({
+        iLike: true,
+        like: likeList,
+        likeLen: this.state.likeLen + 1
+      });
+    }
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+      if(xhttp.readyState == 4 && xhttp.status == 200){
+      }
+    }
+    xhttp.open("PUT", "/like?_id=" + this.props.post._id);
+    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhttp.send(JSON.stringify(likeList));
+
+  }
   render(){
     return (
-      <div className="col-sm-4 col-xs-12 image-element-class">
+      <div className="col-md-3 col-sm-4 col-xs-12 image-element-class">
         <div className="panel panel-default">
           <div className={this.state.isProcessing ? ' processing' :' null'}></div>
           <div className={this.state.isProcessing ? ' processing-wrapper' :' null'}>
@@ -121,19 +152,20 @@ class PerPost extends Component {
           )}
             <div className="panel-body-name">
               <div className= "row panel-body-margin-bottom">
-                <div>
+                <div className="post-user-img">
                   <img src={ this.props.post.userid.imgURL } className="post-userimg displayed" alt="" />
                 </div>
                 <div className="post-user-name">
                   <p> { this.props.post.userid.idname } </p>
                 </div>
-                <div className="post-time">
-                  <p> { this.props.post.updateTime }</p>
+                <div onClick={this.likeToggle} className={this.state.iLike ? 'post-time post-time-active' :'post-time post-time-normal'}>
+                  <p> {this.state.likeLen} </p>
+                  <i className="fa fa-heart" aria-hidden="true"></i>
                 </div>
               </div>
             </div>
             <div className="panel-body">
-            {this.props.isMyPost > 0 &&
+            {this.state.post.isMyPost > 0 &&
               <div className="more">
                 <a onClick={this.getIndex} role="button" data-toggle="dropdown">
                   <i className="fa fa-ellipsis-h" aria-hidden="true"></i>

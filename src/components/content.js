@@ -20,11 +20,8 @@ export default class Content extends Component{
         var resObject = JSON.parse(xhttp.responseText);
         var keyArray = [];
         var object = resObject.map((value) => {
-          var isMyPost;
-          if(this.props.userId == value.userid._id){isMyPost = true;
-          }else{isMyPost = false;}
           keyArray.push(value._id);
-          return (<PerPost post={value} key={value._id} isMyPost={isMyPost} memberApp={this.props.memberApp} isProcessing={false}/>);
+          return (<PerPost post={value} key={value._id} memberApp={this.props.memberApp} isProcessing={false}/>);
         });
         this.setState({posts:object, postsKey: keyArray});
         fromPost += count;
@@ -42,7 +39,7 @@ export default class Content extends Component{
     xhttp.onreadystatechange = () =>{
       if(xhttp.readyState == 4 && xhttp.status == 200){
         var resObject = JSON.parse(xhttp.responseText);
-        this.state.posts.splice(0,1,<PerPost post={resObject} key={resObject._id} isMyPost={true} memberApp={this.props.memberApp} isProcessing={false}/>);
+        this.state.posts.splice(0,1,<PerPost post={resObject} key={resObject._id} memberApp={this.props.memberApp} isProcessing={false}/>);
         this.state.postsKey.splice(0,1,resObject._id);
         this.setState({
           posts:this.state.posts,
@@ -54,7 +51,7 @@ export default class Content extends Component{
     xhttp.send();
   }
   addNewPost(post, index){
-    this.state.posts.unshift(<PerPost post={post} key={index} isMyPost={true} memberApp={this.props.memberApp} isProcessing={true}/>);
+    this.state.posts.unshift(<PerPost post={post} key={index} memberApp={this.props.memberApp} isProcessing={true}/>);
     this.state.postsKey.unshift(index);
     this.setState({
       posts: this.state.posts,
