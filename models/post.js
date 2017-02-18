@@ -10,7 +10,7 @@ var postSchema = new Schema({
   // imgContentType: String,
   imgURL: String,
   updateTime: String,
-  like:{}
+  like:[]
 
 },{ collection: 'userpost' });
 

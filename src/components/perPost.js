@@ -105,35 +105,32 @@ class PerPost extends Component {
       postsKey: this.state.content.state.postsKey
     });
   }
+  
   likeToggle(){
-    console.log(this.state.like);
-    var _this = this;
-    var likeList = this.state.like;
     if(this.state.iLike == true){
-      var index = likeList.indexOf(this.state.memberApp.state.id);
-      likeList.splice(index,1);
       this.setState({
         iLike: false,
-        like: likeList,
         likeLen: this.state.likeLen - 1
       });
     }else{
-      likeList.push(this.state.memberApp.state.id);
       this.setState({
         iLike: true,
-        like: likeList,
         likeLen: this.state.likeLen + 1
       });
     }
+    var _this = this;
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
       if(xhttp.readyState == 4 && xhttp.status == 200){
+        var object = JSON.parse(xhttp.responseText);
+        console.log(object);
+        _this.state.iLike = object.iLike;
+        _this.state.likeLen = object.likeLen;
       }
     }
-    xhttp.open("PUT", "/like?_id=" + this.props.post._id);
+    xhttp.open("PUT", "/like?_id=" + this.props.post._id + "&iLike=" + this.state.iLike);
     xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhttp.send(JSON.stringify(likeList));
-
+    xhttp.send();
   }
   render(){
     return (

@@ -8,12 +8,12 @@ module.exports = function(req, res, next) {
       });
       posts.map(function(obj) {
         if(obj.userid._id == req.session._id){
-          obj['isMyPost'] = true;
+          obj.isMyPost = true;
         }else{
-          obj['isMyPost'] = false;
+          obj.isMyPost = false;
         }
-        obj['likeLen'] = obj.like.length;
-        obj['iLike'] = obj.like.includes(req.session._id);
+        obj.likeLen = obj.like.length;
+        obj.iLike = obj.like.includes(req.session._id);
         console.log(obj);
         return obj;
       });
