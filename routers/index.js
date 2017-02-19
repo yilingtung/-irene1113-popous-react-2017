@@ -8,6 +8,7 @@ var express = require('express'),
     postInfo = require('../controllers/postInfo'),
     del = require('../controllers/del'),
     updatePost = require('../controllers/updatePost'),
+    passport = require('../controllers/passport');
     router  = express.Router(),
     path = require('path');
 
@@ -16,6 +17,17 @@ router.route('/').get(function(req, res) {
   var signup_error = req.flash('signup_error')[0];
   //res.render('index', {login_message : error, signup_message : signup_error});
   res.sendFile(path.join(__dirname, '../index.html'));
+});
+
+router.post('/login', passport.authenticate('local', {
+  failureRedirect: '/#/?login_error=1&',
+  successFlash: 'Welcome!',
+  failureFlash: '帳號或密碼錯誤'
+}), function(req, res) {
+  req.session.idname = req.user.idname;
+  req.session._id = req.user.id;
+  console.log(req.user.id);
+  res.redirect('/member');
 });
 
 router.route('/signup').post(person);
