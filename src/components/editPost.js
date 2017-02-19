@@ -81,7 +81,7 @@ export default class EditPost extends Component{
           });
         }
       }
-      xhttp.open("PUT", "/post");
+      xhttp.open("PUT", "/post?type=editPost");
       xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
       xhttp.send(JSON.stringify(newPost));
     });

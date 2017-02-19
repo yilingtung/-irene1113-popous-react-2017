@@ -8,8 +8,6 @@ var express = require('express'),
     postInfo = require('../controllers/postInfo'),
     del = require('../controllers/del'),
     updatePost = require('../controllers/updatePost'),
-    newPostInfo = require('../controllers/newPostInfo'),
-    like = require('../controllers/like'),
     router  = express.Router(),
     path = require('path');
 
@@ -28,8 +26,6 @@ router.route('/del').get(del);
 router.route('/post').post(post)
                      .get(postInfo)
                      .put(updatePost);
-router.route('/like').put(like);
 router.route('/memberInfo').get(memberInfo);
-router.route('/newPostInfo').get(newPostInfo);
 
 module.exports = router;

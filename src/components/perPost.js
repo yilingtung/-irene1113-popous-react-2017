@@ -18,7 +18,6 @@ class PerPost extends Component {
       imgURL: this.props.post.imgURL,
       haveImg: false,
       isProcessing: this.props.isProcessing,
-      like: this.props.post.like,
       likeLen: this.props.post.likeLen,
       iLike: this.props.post.iLike
     };
@@ -105,9 +104,9 @@ class PerPost extends Component {
       postsKey: this.state.content.state.postsKey
     });
   }
-  
+
   likeToggle(){
-    if(this.state.iLike == true){
+    if(this.state.iLike){
       this.setState({
         iLike: false,
         likeLen: this.state.likeLen - 1
@@ -122,13 +121,9 @@ class PerPost extends Component {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
       if(xhttp.readyState == 4 && xhttp.status == 200){
-        var object = JSON.parse(xhttp.responseText);
-        console.log(object);
-        _this.state.iLike = object.iLike;
-        _this.state.likeLen = object.likeLen;
       }
     }
-    xhttp.open("PUT", "/like?_id=" + this.props.post._id + "&iLike=" + this.state.iLike);
+    xhttp.open("PUT", "/post?type=like&_id=" + this.props.post._id);
     xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhttp.send();
   }

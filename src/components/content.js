@@ -28,7 +28,7 @@ export default class Content extends Component{
         document.getElementById('loading').style.display = "none";
       }
     }
-    xhttp.open("GET","/post?from=" + fromPost + "&count=" + count);
+    xhttp.open("GET","/post?find=all&from=" + fromPost + "&count=" + count);
     xhttp.send();
   }
   shouldComponentUpdate(nextProps,nextState){
@@ -47,7 +47,7 @@ export default class Content extends Component{
         });
       }
     }
-    xhttp.open("GET","/newPostInfo?userid=" + userid + "&updateTime=" + updateTime);
+    xhttp.open("GET","/post?find=newest&userid=" + userid + "&updateTime=" + updateTime);
     xhttp.send();
   }
   addNewPost(post, index){
