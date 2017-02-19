@@ -9,7 +9,7 @@ var flash = require('connect-flash');
 // You need session to use connect flash
 var session = require('express-session');
 var bodyParser = require('body-parser');
-var routers = require('./routers/index');
+var routers;
 var app = express();
 var port = process.env.PORT || 3000;
 app.use('/assets', express.static(__dirname + '/public'));
@@ -26,17 +26,11 @@ app.use( session({
 var passport = require('./controllers/passport.js');
 app.use( passport.initialize());
 app.use( passport.session());
-passport.appCallback();
-app.use(flash());
-app.use('/', routers);
-
-
-
-
-
-
-
-
+passport.appCallback(function(){
+  routers = require('./routers/index');
+  app.use(flash());
+  app.use('/', routers);
+});
 app.listen(port, function() {
   console.log('started');
 });

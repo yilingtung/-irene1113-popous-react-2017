@@ -124,7 +124,6 @@ class PerPost extends Component {
       }
     }
     xhttp.open("PUT", "/post?type=like&_id=" + this.props.post._id);
-    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhttp.send();
   }
   render(){
@@ -157,22 +156,32 @@ class PerPost extends Component {
               </div>
             </div>
             <div className="panel-body">
-            {this.state.post.isMyPost > 0 &&
-              <div className="more">
-                <a onClick={this.getIndex} role="button" data-toggle="dropdown">
-                  <i className="fa fa-ellipsis-h" aria-hidden="true"></i>
-                </a>
-                <ul className="dropdown-menu">
-                  <li><a onClick={this.setEditPostModal} href="#editPostModal" role="button" data-toggle="modal">編輯</a></li>
-                  <li><a onClick={this.deletePost} role="button">刪除</a></li>
-                </ul>
-              </div>
-            }
-              <p>
-              {this.state.haveImg > 0 &&
-                this.state.postcontent
+              <div className="panel-body-content">
+              {this.state.post.isMyPost > 0 &&
+                <div className="more">
+                  <a onClick={this.getIndex} role="button" data-toggle="dropdown">
+                    <i className="fa fa-ellipsis-h" aria-hidden="true"></i>
+                  </a>
+                  <ul className="dropdown-menu">
+                    <li><a onClick={this.setEditPostModal} href="#editPostModal" role="button" data-toggle="modal">編輯</a></li>
+                    <li><a onClick={this.deletePost} role="button">刪除</a></li>
+                  </ul>
+                </div>
               }
-              </p>
+                <p>
+                {this.state.haveImg > 0 &&
+                  this.state.postcontent
+                }
+                </p>
+              </div>
+              <div>
+                <div className="response-user-img">
+                  <img src={ this.state.memberApp.state.imgURL } className="post-userimg displayed" alt="" />
+                </div>
+                <div className="response-user-name">
+                  <p> { this.state.memberApp.state.idname } </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>

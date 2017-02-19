@@ -5,6 +5,7 @@ module.exports = function(req, res, next) {
   if(req.query.type =='editPost'){
     Post.findOneAndUpdate({ _id: req.body._id }, req.body, function(err) {
       if (err) throw err;
+      res.end();
     });
   }else if(req.query.type =='like'){
     Post.findOne({_id: req.query._id}, function(err, post) {
@@ -18,8 +19,9 @@ module.exports = function(req, res, next) {
       }else{
         likeList.push(req.session._id);
       }
-      Post.findOneAndUpdate({_id: req.query._id}, {like: likeList}, function(err, post) {
+      Post.findOneAndUpdate({_id: req.query._id}, {like: likeList}, function(err) {
         if (err) throw err;
+        res.end();
       });
     });
   }

@@ -2,7 +2,7 @@ var Person = require('../models/person');
 var LocalStrategy = require('passport-local').Strategy;
 var passport = require('passport');
 
-passport.appCallback = function(){
+passport.appCallback = function(callback){
   // Authentication
   passport.use(
     new LocalStrategy(
@@ -40,13 +40,20 @@ passport.appCallback = function(){
     return done(null, user);
   });
 
-  passport.c = function(){
-    return passport.authenticate('local', {
+  passport.c = passport.authenticate('local', {
       failureRedirect: '/#/?login_error=1&',
       successFlash: 'Welcome!',
       failureFlash: '帳號或密碼錯誤'
-    });
+  });
+
+  passport.success= function(req, res) {
+    req.session.idname = req.user.idname;
+    req.session._id = req.user.id;
+    console.log(req.user.id);
+    res.redirect('/member');
   }
+
+  callback();
 }
 
 module.exports = passport;
