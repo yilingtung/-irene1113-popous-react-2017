@@ -81,7 +81,8 @@ export default class Post extends Component{
             postcontent : _this.state.postcontent,
             imgURL: _this.state.imgURL,
             updateTime : _this.state.updateTime,
-            like: []
+            like: [],
+            reply: []
           };
           xhttp.onreadystatechange = function () {
             if(xhttp.readyState == 4 && xhttp.status == 200){
@@ -110,7 +111,7 @@ export default class Post extends Component{
         	            <div className="form-group">
         	              <textarea id="content_input" value={this.state.postcontent} onChange={(event) => this.setState({postcontent: event.target.value})} name="postcontent" type="text" className="form-control input-lg" rows="4" placeholder="想分享什麼？"></textarea>
         								<div className="row">
-        									<div id="post-img-div" className={this.state.haveImg ? ('img-div-style img-hover col-sm-3 col-xs-3') : ('display-none img-hover col-sm-3 col-xs-3')}>
+        									<div id="post-img-div" className={this.state.haveImg ? ('img-div-style img-hover col-sm-5 col-xs-5') : ('display-none img-hover col-sm-5 col-xs-5')}>
         										<img src={this.state.imgURL} id="output-img-preview" className="img-responsive margin-center"/>
         										<button onClick={this.removeImg} id="delete-btn" type="button" className="btn-img-delete close">×</button>
         									</div>

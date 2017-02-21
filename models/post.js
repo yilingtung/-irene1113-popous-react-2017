@@ -10,7 +10,11 @@ var postSchema = new Schema({
   // imgContentType: String,
   imgURL: String,
   updateTime: String,
-  like:[]
+  like: [],
+  reply: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Reply'
+  }]
 
 },{ collection: 'userpost' });
 

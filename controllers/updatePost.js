@@ -7,7 +7,8 @@ module.exports = function(req, res, next) {
       if (err) throw err;
       res.end();
     });
-  }else if(req.query.type =='like'){
+  }
+  else if(req.query.type =='like'){
     Post.findOne({_id: req.query._id}, function(err, post) {
       if (err) throw err;
       var likeList = post.like;
@@ -20,6 +21,25 @@ module.exports = function(req, res, next) {
         likeList.push(req.session._id);
       }
       Post.findOneAndUpdate({_id: req.query._id}, {like: likeList}, function(err) {
+        if (err) throw err;
+        res.end();
+      });
+    });
+  }
+  else if(req.query.type =='reply'){
+    Post.findOne({_id: req.query._id}, function(err, post) {
+      if (err) throw err;
+      var replyList = post.reply;
+      var exist = post.reply.includes(req.query.replyId);
+      if(exist){
+        //已經存在所以要刪除
+        var index = replyList.indexOf(req.query.replyId);
+        replyList.splice(index,1);
+      }else{
+        //還不存在所以要push在最後一個
+        replyList.push(req.query.replyId);
+      }
+      Post.findOneAndUpdate({_id: req.query._id}, {reply: replyList}, function(err) {
         if (err) throw err;
         res.end();
       });

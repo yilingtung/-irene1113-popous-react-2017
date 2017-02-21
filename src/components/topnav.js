@@ -7,12 +7,23 @@ export default class TopNav extends Component{
       memberApp: this.props.memberApp
     };
     this.setPostModal = this.setPostModal.bind(this);
+    this.setEditModal = this.setEditModal.bind(this);
   }
   setPostModal(){
     this.state.memberApp.refs.postModal.setState({
       postcontent: '',
       imgURL: null,
       haveImg: false,
+      imgFile: null,
+      imgFileName: null,
+      inputValue: null
+    });
+  }
+  setEditModal(){
+    this.state.memberApp.refs.editModal.setState({
+      idname: this.state.memberApp.state.idname,
+      haveImg: false,
+      imgURL: this.state.memberApp.state.imgURL,
       imgFile: null,
       imgFileName: null,
       inputValue: null
@@ -50,7 +61,14 @@ export default class TopNav extends Component{
           <ul className="nav navbar-nav navbar-right margin-right-0">
             <li className="dropdown">
               <a href="#" className="dropdown-toggle" data-toggle="dropdown"><i className="glyphicon glyphicon-user"></i></a>
-              <ul className="dropdown-menu">
+              <ul className="dropdown-menu userInfo">
+                <li>
+                  <div className="shadow">
+                      <img src={this.state.memberApp.state.imgURL} className="img-responsive displayed" alt="" />
+                  </div>
+                  <h4>{this.state.memberApp.state.idname}</h4>
+                </li>
+                <li><a id="userphoto-setting"  href="#editModal" onClick={this.setEditModal} role="button" data-toggle="modal">編輯</a></li>
                 <li><a href="">登出</a></li>
               </ul>
             </li>

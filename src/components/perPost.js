@@ -12,6 +12,7 @@ class PerPost extends Component {
       memberApp: this.props.memberApp,
       content: this.props.memberApp.refs.content,
       editPost: this.props.memberApp.refs.editPost,
+      detail: this.props.memberApp.refs.detailModal,
       post: this.props.post,
       index: '',
       postcontent: this.props.post.postcontent,
@@ -19,21 +20,25 @@ class PerPost extends Component {
       haveImg: false,
       isProcessing: this.props.isProcessing,
       likeLen: this.props.post.likeLen,
-      iLike: this.props.post.iLike
+      replyLen: this.props.post.replyLen,
+      iLike: this.props.post.iLike,
+      mouseEnter: false
     };
     if(this.state.imgURL){this.state.haveImg = true;}
     this.deletePost = this.deletePost.bind(this);
     this.getIndex = this.getIndex.bind(this);
     this.setEditPostModal = this.setEditPostModal.bind(this);
+    this.setDetailModal = this.setDetailModal.bind(this);
     this.likeToggle = this.likeToggle.bind(this);
+    this.mouseEnter = this.mouseEnter.bind(this);
+    this.mouseLeave = this.mouseLeave.bind(this);
     var time = this.props.post.updateTime;
     var date = new Date(JSON.parse(time));
-    date = [(date.getMonth()+1).padLeft(),
-               date.getDate().padLeft(),
-               date.getFullYear()].join('/') +' ' +
-              [date.getHours().padLeft(),
-               date.getMinutes().padLeft(),
-               date.getSeconds().padLeft()].join(':');
+    date = [date.getFullYear().padLeft(),
+            (date.getMonth()+1).padLeft(),
+            date.getDate()].join('.') +' ' +
+            [date.getHours().padLeft(),
+            date.getMinutes().padLeft()].join(':');
     this.props.post.updateTime = date;
   }
   shouldComponentUpdate(nextProps,nextState){
@@ -45,12 +50,11 @@ class PerPost extends Component {
     try {
       var time = nextProps.post.updateTime;
       var date = new Date(JSON.parse(time));
-      date = [(date.getMonth()+1).padLeft(),
-                 date.getDate().padLeft(),
-                 date.getFullYear()].join('/') +' ' +
-                [date.getHours().padLeft(),
-                 date.getMinutes().padLeft(),
-                 date.getSeconds().padLeft()].join(':');
+      date = [date.getFullYear().padLeft(),
+              (date.getMonth()+1).padLeft(),
+              date.getDate()].join('.') +' ' +
+              [date.getHours().padLeft(),
+              date.getMinutes().padLeft()].join(':');
       nextProps.post.updateTime = date;
     } catch (e) {
       return true;
@@ -65,6 +69,7 @@ class PerPost extends Component {
   }
   deletePost(){
     var _this = this;
+    _this.getIndex();
     _this.postProcessingShow();
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
@@ -88,6 +93,25 @@ class PerPost extends Component {
       imgFile: null,
       imgFileName: null,
       inputValue: null
+    });
+  }
+  setDetailModal(){
+    this.state.detail.setState({
+      postUserImg: this.state.post.userid.imgURL,
+      postUserName: this.state.post.userid.idname,
+      post_id: this.state.post._id,
+      postcontent: this.state.postcontent,
+      updateTime: this.props.post.updateTime,
+      imgURL: this.state.imgURL,
+      haveImg: this.state.haveImg,
+      index: this.state.index,
+      likeLen: this.state.likeLen,
+      replyLen: this.state.replyLen,
+      iLike: this.state.iLike,
+      isCommentsShow: false,
+      replyContent: ""
+    },()=>{
+      this.state.detail.getReplyInfo();
     });
   }
   getIndex(){
@@ -126,60 +150,65 @@ class PerPost extends Component {
     xhttp.open("PUT", "/post?type=like&_id=" + this.props.post._id);
     xhttp.send();
   }
+  mouseEnter(){
+    this.setState({
+      mouseEnter: true
+    });
+  }
+  mouseLeave(){
+    this.setState({
+      mouseEnter: false
+    });
+  }
   render(){
     return (
-      <div className="col-md-3 col-sm-4 col-xs-12 image-element-class">
+      <div onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave} className="perPost col-md-3 col-sm-4 col-xs-12 image-element-class">
         <div className="panel panel-default">
-          <div className={this.state.isProcessing ? ' processing' :' null'}></div>
-          <div className={this.state.isProcessing ? ' processing-wrapper' :' null'}>
-          {this.state.haveImg ? (
-            <div className="panel-thumbnail">
-              <img onLoad={this.state.content.callMasonry} src={ this.state.imgURL } className="img-responsive margin-center" />
-            </div>
-          ):(
-            <div className="panel-body">
-              <p >{ this.state.postcontent }</p>
-            </div>
-          )}
-            <div className="panel-body-name">
-              <div className= "row panel-body-margin-bottom">
-                <div className="post-user-img">
-                  <img src={ this.props.post.userid.imgURL } className="post-userimg displayed" alt="" />
-                </div>
-                <div className="post-user-name">
-                  <p> { this.props.post.userid.idname } </p>
-                </div>
-                <div onClick={this.likeToggle} className={this.state.iLike ? 'post-time post-time-active' :'post-time post-time-normal'}>
-                  <p> {this.state.likeLen} </p>
-                  <i className="fa fa-heart" aria-hidden="true"></i>
-                </div>
+        {this.state.post.isMyPost > 0 &&
+          (this.state.mouseEnter > 0 &&
+            <div>
+              <div onClick={this.deletePost} className="action-btn perPost-action-btn action-del">
+                <i className="fa fa-trash-o"></i>
+              </div>
+              <div onClick={this.setEditPostModal} href="#editPostModal" data-toggle="modal" className="action-btn perPost-action-btn action-edit">
+                <i className="fa fa-pencil"></i>
               </div>
             </div>
-            <div className="panel-body">
-              <div className="panel-body-content">
-              {this.state.post.isMyPost > 0 &&
-                <div className="more">
-                  <a onClick={this.getIndex} role="button" data-toggle="dropdown">
-                    <i className="fa fa-ellipsis-h" aria-hidden="true"></i>
-                  </a>
-                  <ul className="dropdown-menu">
-                    <li><a onClick={this.setEditPostModal} href="#editPostModal" role="button" data-toggle="modal">編輯</a></li>
-                    <li><a onClick={this.deletePost} role="button">刪除</a></li>
-                  </ul>
+          )
+        }
+          <div className={this.state.isProcessing ? 'processing' :'null'}></div>
+          <div className={this.state.isProcessing ? 'processing-wrapper' :'null'}>
+            <div className="perPost-wrapper cursor-zoom-in" onClick={this.setDetailModal} href="#detailModal" data-toggle="modal" >
+              <div className="panel-body">
+              {this.state.haveImg ? (
+                <img onLoad={this.state.content.callMasonry} src={ this.state.imgURL } className="img-responsive margin-center" />
+              ):(
+                <p >{ this.state.postcontent }</p>
+              )}
+              </div>
+              <div className="panel-body-name">
+                <div className= "row panel-body-margin-bottom">
+                  <div className="post-user-img">
+                    <img src={ this.props.post.userid.imgURL } className="post-userimg displayed" alt="" />
+                  </div>
+                  <div className="post-user-name">
+                    <p> { this.props.post.userid.idname } </p>
+                  </div>
+                  <div onClick={this.likeToggle} className={this.state.iLike ? 'post-likes post-likes-active' :'post-likes post-likes-normal'}>
+                    <p> {this.state.likeLen} </p>
+                    <i className="fa fa-heart" aria-hidden="true"></i>
+                  </div>
+                  <div className="post-comments post-comments-normal">
+                    <p> {this.state.replyLen} </p>
+                    <i className="fa fa-comment" aria-hidden="true"></i>
+                  </div>
                 </div>
-              }
-                <p>
+              </div>
+              <div className="panel-body">
+                <div className="panel-body-content">
                 {this.state.haveImg > 0 &&
-                  this.state.postcontent
+                  <p>{this.state.postcontent}</p>
                 }
-                </p>
-              </div>
-              <div>
-                <div className="response-user-img">
-                  <img src={ this.state.memberApp.state.imgURL } className="post-userimg displayed" alt="" />
-                </div>
-                <div className="response-user-name">
-                  <p> { this.state.memberApp.state.idname } </p>
                 </div>
               </div>
             </div>

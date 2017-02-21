@@ -7,6 +7,7 @@ var express = require('express'),
     memberInfo = require('../controllers/memberInfo'),
     postInfo = require('../controllers/postInfo'),
     del = require('../controllers/del'),
+    reply = require('../controllers/reply'),
     updatePost = require('../controllers/updatePost'),
     passport = require('../controllers/passport');
     router  = express.Router(),
@@ -22,12 +23,14 @@ router.route('/login').all(passport.c).post(passport.success);
 
 router.route('/signup').post(person);
 
-router.route('/member').get(member)
-                       .put(update);
+router.route('/member').get(member);
 router.route('/del').get(del);
 router.route('/post').post(post)
                      .get(postInfo)
                      .put(updatePost);
-router.route('/memberInfo').get(memberInfo);
+router.route('/reply').post(reply);
+router.route('/memberInfo').get(memberInfo)
+                           .put(update);
+
 
 module.exports = router;

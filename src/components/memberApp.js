@@ -6,6 +6,7 @@ import Content from './content';
 import Edit from './edit';
 import Post from './post';
 import EditPost from './editPost';
+import Detail from './detail';
 
 export default class MemberApp extends Component {
   constructor(props){
@@ -44,6 +45,7 @@ export default class MemberApp extends Component {
         <Edit ref="editModal" memberApp={this}/>
         <Post ref="postModal" memberApp={this}/>
         <EditPost ref="editPost" memberApp={this}/>
+        <Detail ref="detailModal" memberApp={this}/>
       </div>
     );
   }
