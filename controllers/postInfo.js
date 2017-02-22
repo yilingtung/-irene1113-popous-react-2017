@@ -39,7 +39,7 @@ module.exports = function(req, res, next) {
     });
   }
   else if(req.query.find == 'reply'){
-    Post.findOne({_id : req.query._id}).populate('userid', '-password').populate({path:'reply', populate: {path:'userid'}}).lean().exec(function(err,post) {
+    Post.findOne({_id : req.query._id}).populate({path:'reply', populate: {path:'userid', select:'-password'}}).select('reply').exec(function(err,post) {
       if (err) throw err;
       console.log(post);
       res.json(post);

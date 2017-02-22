@@ -22,7 +22,8 @@ class PerPost extends Component {
       likeLen: this.props.post.likeLen,
       replyLen: this.props.post.replyLen,
       iLike: this.props.post.iLike,
-      mouseEnter: false
+      mouseEnter: false,
+      test: true
     };
     if(this.state.imgURL){this.state.haveImg = true;}
     this.deletePost = this.deletePost.bind(this);
@@ -96,10 +97,12 @@ class PerPost extends Component {
     });
   }
   setDetailModal(){
+    console.log('detail open');
     this.state.detail.setState({
       postUserImg: this.state.post.userid.imgURL,
       postUserName: this.state.post.userid.idname,
       post_id: this.state.post._id,
+      post_this: this,
       postcontent: this.state.postcontent,
       updateTime: this.props.post.updateTime,
       imgURL: this.state.imgURL,
@@ -129,14 +132,17 @@ class PerPost extends Component {
     });
   }
 
-  likeToggle(){
+  likeToggle(e){
+    e.stopPropagation();
     if(this.state.iLike){
       this.setState({
+        test:false,
         iLike: false,
         likeLen: this.state.likeLen - 1
       });
     }else{
       this.setState({
+        test:false,
         iLike: true,
         likeLen: this.state.likeLen + 1
       });
@@ -145,6 +151,9 @@ class PerPost extends Component {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
       if(xhttp.readyState == 4 && xhttp.status == 200){
+        _this.setState({
+          test:true
+        });
       }
     }
     xhttp.open("PUT", "/post?type=like&_id=" + this.props.post._id);
@@ -178,7 +187,7 @@ class PerPost extends Component {
         }
           <div className={this.state.isProcessing ? 'processing' :'null'}></div>
           <div className={this.state.isProcessing ? 'processing-wrapper' :'null'}>
-            <div className="perPost-wrapper cursor-zoom-in" onClick={this.setDetailModal} href="#detailModal" data-toggle="modal" >
+            <div className="perPost-wrapper cursor-zoom-in" onClick={this.setDetailModal} href="#detailModal" data-toggle={this.state.test ? 'modal' :''} >
               <div className="panel-body">
               {this.state.haveImg ? (
                 <img onLoad={this.state.content.callMasonry} src={ this.state.imgURL } className="img-responsive margin-center" />

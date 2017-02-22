@@ -50,33 +50,24 @@ export default class Detail extends Component{
     xhttp.open("GET","/post?find=reply&_id=" + this.state.post_id);
     xhttp.send();
   }
-  updatePostReply(replyId){
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-      if(xhttp.readyState == 4 && xhttp.status == 200){
-      }
-    }
-    xhttp.open("PUT", "/post?type=reply&_id=" + this.state.post_id + "&replyId=" + replyId);
-    xhttp.send();
-  }
   submitForm(){
     var _this = this;
     var d = new Date();
     this.setState({
-      updateTime: d.getTime().toString()
+      replyUpdateTime: d.getTime().toString()
     },()=>{
       var xhttp = new XMLHttpRequest();
       var newReply = {
         replyContent : this.state.replyContent,
-        updateTime : this.state.updateTime,
+        updateTime : this.state.replyUpdateTime,
         like: []
       };
       xhttp.onreadystatechange = function () {
         if(xhttp.readyState == 4 && xhttp.status == 200){
-          var object = JSON.parse(xhttp.responseText);
-          _this.updatePostReply(object);
-          _this.addReply(object);
-          console.log(object);
+          var replyId = JSON.parse(xhttp.responseText);
+          _this.updatePostReply(replyId);
+          _this.addReply(replyId);
+          console.log(replyId);
           _this.setState({
             replyContent: ''
           });
@@ -87,9 +78,25 @@ export default class Detail extends Component{
       xhttp.send(JSON.stringify(newReply));
     });
   }
+  updatePostReply(replyId){
+    var _this = this;
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+      if(xhttp.readyState == 4 && xhttp.status == 200){
+        var length = _this.state.replyLen + 1;
+        _this.setState({
+          replyLen: length
+        });
+        _this.state.post_this.setState({
+          replyLen: length
+        });
+      }
+    }
+    xhttp.open("PUT", "/post?type=reply&_id=" + this.state.post_id + "&replyId=" + replyId);
+    xhttp.send();
+  }
   addReply(replyId){
-    var newArray =[];
-    newArray.push(
+    this.state.replys.push(
       <li key={replyId}>
         <div className="row">
           <div className="comment">
@@ -103,9 +110,8 @@ export default class Detail extends Component{
         </div>
       </li>
     );
-    console.log(newArray);
     this.setState({
-      replys: this.state.replys.push(newArray)
+      replys: this.state.replys
     });
   }
   render(){
