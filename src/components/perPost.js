@@ -114,6 +114,7 @@ class PerPost extends Component {
       isCommentsShow: false,
       replyContent: ""
     },()=>{
+      console.log(this.state.detail.state.isCommentsShow);
       this.state.detail.getReplyInfo();
     });
   }

@@ -1,4 +1,4 @@
-.test{
+.reply-collapse{
   max-height: 0px;
   height: auto;
   margin: 0 auto;
@@ -28,6 +28,7 @@ div.expanded {
   opacity: 0.01;
   transition: opacity 300ms ease-in;
 }
+
 .detail-user-name{
   float: left;
   font-weight: 600;
@@ -138,19 +139,53 @@ div.expanded {
   -moz-border-radius: 50%;
   border-radius: 50%;
 }
+.userInfo-box,.hello-box{
+  display: inline-block;
+  padding: 15px;
+  float: right;
+}
 .userInfo{
+  text-align: center;
   padding-top: 16px;
   padding-bottom: 12px;
 }
 .userInfo  li{
-  text-align: center;
   color: #878888;
 }
-.userInfo li>a:hover{
-  color: #111;
-}
-.userInfo div{
+.userInfo img{
   width: 84px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.userInfo a{
+  color: #4EAFCD !important;
+  display: block;
+}
+.userInfo > a:hover{
+  background-color: #4EAFCD;
+  color: #fff !important;
+}
+.login-menu{
+  position: absolute;
+  right: 0;
+  left: auto;
+  z-index: 1000;
+  min-width: 160px;
+  padding-left: 0;
+  padding-right: 0;
+  font-size: 14px;
+  list-style: none;
+  color: #878888;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  background-color: #fff;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 1px solid rgba(0,0,0,.15);
+  border-radius: 4px;
+  -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+  box-shadow: 0 6px 12px rgba(0,0,0,.175);
+  text-align: center;
 }
 .submitBtn{
   background: #4AC6B7;
@@ -431,16 +466,13 @@ span.roll {
 }
 #navbar-userphoto-div{
   height: 40px;
-  width: 40px;
   float: right;
-  margin-left: 10px;
-  margin-right: 10px;
 }
 #navbar-userphoto{
-  width: 100%;
-  height: 100%;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  margin-top: 4px;
+  margin-top: 9px;
 }
 #logo-footer{
   width: 80%;
@@ -546,7 +578,7 @@ hr {
     width:inherit;
 }
 
-.navbar-blue li > a,.navbar-toggle  {
+.navbar-blue a,.navbar-toggle  {
    color:#efefef;
 }
 
@@ -590,7 +622,7 @@ hr {
   display:block;
   padding:3px;
   background-color:#fff;
-  color:#4EAFCD;
+  color:#4EAFCD !important;
   height:28px;
   width:28px;
   margin:9px;
@@ -602,6 +634,9 @@ hr {
   text-decoration:none;
   text-shadow:0 0 1px;
   border-radius:2px;
+}
+.logo:hover{
+  color:#2a5a88 !important;
 }
 #sidebar-footer {
   position:absolute;
@@ -864,5 +899,11 @@ small.text-muted {
 
   #sidebar, #sidebar a, #sidebar-footer a {
     padding-left:3px;
+  }
+  .hide-xs{
+    display: none;
+  }
+  .submitBtn{
+    width: 100%;
   }
 }

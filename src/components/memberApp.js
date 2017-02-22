@@ -11,18 +11,21 @@ import Detail from './detail';
 export default class MemberApp extends Component {
   constructor(props){
     super(props);
-    this.state = {};
+    this.state = {
+      login: true
+    };
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = () =>{
       if(xhttp.readyState == 4 && xhttp.status == 200){
         var object = JSON.parse(xhttp.responseText);
-        this.setState(
-          {
+        this.setState({
             idname: object.idname,
             id: object._id,
-            imgURL: object.imgURL
-          }
-        );
+            imgURL: object.imgURL,
+            login: object.login
+        },()=>{
+          console.log(object);
+        });
       }
     }
     xhttp.open("GET","/memberInfo");

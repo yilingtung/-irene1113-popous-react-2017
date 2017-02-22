@@ -167,22 +167,24 @@ export default class Detail extends Component{
                   <span onClick={this.toggleComment} className="cursor-pointer">
                     {this.state.replyLen} comments <i className={this.state.isCommentsShow ? 'fa fa-caret-down rotate' :'fa fa-caret-down'}></i>
                   </span>
-                  <div className={this.state.isCommentsShow ? 'test expanded' :'test'}>
+                  <div className={this.state.isCommentsShow ? 'reply-collapse expanded' :'reply-collapse'}>
                     <ul className="all-comment">
                       {this.state.replys}
                     </ul>
                   </div>
                 </div>
-                <div className="row">
-                  <div className="response">
-                    <hr></hr>
-                    <img src={ this.state.memberApp.state.imgURL } className="post-userimg displayed" alt="" />
-                    <div>
-                      <textarea value={this.state.replyContent} onChange={(event) => this.setState({replyContent: event.target.value})} name="replyContent" type="text" rows="1" placeholder="回應..."></textarea>
+                {this.state.memberApp.state.login >0 &&
+                  <div className="row">
+                    <div className="response">
+                      <hr></hr>
+                      <img src={ this.state.memberApp.state.imgURL } className="post-userimg displayed" alt="" />
+                      <div>
+                        <textarea value={this.state.replyContent} onChange={(event) => this.setState({replyContent: event.target.value})} name="replyContent" type="text" rows="1" placeholder="回應..."></textarea>
+                      </div>
+                      <button onClick={this.submitForm} type="submit" value="Upload reply" className="submitBtn" aria-hidden="true">送出</button>
                     </div>
-                    <button onClick={this.submitForm} type="submit" value="Upload reply" className="submitBtn" aria-hidden="true">送出</button>
                   </div>
-                </div>
+                }
               </div>
             </div>
           </div>

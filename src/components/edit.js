@@ -160,7 +160,7 @@ export default class Edit extends Component{
     						<div className="modal-footer">
     							<div className="row">
     								<div className="col-sm-2 col-xs-12 float-right">
-    									<a onClick={this.submitForm} className="btn btn-primary btn-sm btn-block" href="javascript:{}">Submit</a>
+                      <button onClick={this.submitForm} type="submit" value="Upload userInfo" className="submitBtn" data-dismiss="modal" aria-hidden="true">Submit</button>
     								</div>
     							</div>
     						</div>
