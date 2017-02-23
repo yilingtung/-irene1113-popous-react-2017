@@ -3,32 +3,15 @@
   height: auto;
   margin: 0 auto;
   overflow: hidden;
-  -webkit-transition: max-height 0.4s ease-in-out;
-  -moz-transition: max-height 0.4s ease-in-out;
-  -o-transition: max-height 0.4s ease-in-out;
-  transition: max-height 0.4s ease-in-out;
+  -webkit-transition: max-height 0.6s ease-in-out;
+  -moz-transition: max-height 0.6s ease-in-out;
+  -o-transition: max-height 0.6s ease-in-out;
+  transition: max-height 0.6s ease-in-out;
 }
-div.expanded {
-  max-height: 10000px;
+.reply-collapse.expanded {
+  max-height: 140px;
+  overflow: scroll;
 }
-.example-enter {
-  opacity: 0.01;
-}
-
-.example-enter.example-enter-active {
-  opacity: 1;
-  transition: opacity 500ms ease-in;
-}
-
-.example-leave {
-  opacity: 1;
-}
-
-.example-leave.example-leave-active {
-  opacity: 0.01;
-  transition: opacity 300ms ease-in;
-}
-
 .detail-user-name{
   float: left;
   font-weight: 600;

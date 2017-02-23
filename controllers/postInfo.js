@@ -10,7 +10,6 @@ module.exports = function(req, res, next) {
         return (b.updateTime - a.updateTime );
       });
       posts.map(function(obj) {
-        console.log(obj);
         if(obj.userid._id == req.session._id){
           obj.isMyPost = true;
         }else{
@@ -34,14 +33,12 @@ module.exports = function(req, res, next) {
       post.replyLen = post.reply.length;
       post.iLike = post.like.includes(req.session._id);
       delete post.like;
-      console.log(post);
       res.json(post);
     });
   }
   else if(req.query.find == 'reply'){
     Post.findOne({_id : req.query._id}).populate({path:'reply', populate: {path:'userid', select:'-password'}}).select('reply').exec(function(err,post) {
       if (err) throw err;
-      console.log(post);
       res.json(post);
     });
 

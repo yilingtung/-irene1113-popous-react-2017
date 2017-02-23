@@ -6,14 +6,12 @@ module.exports = function(req, res, next) {
   var b_checker = true;
   Person.findOne({idname:req.body.idname}, function(err, user) {
     if (user) {
-      console.log('The idname that you chose has already been taken.' + user.idname);
       res.json({signup_status : 0 , signup_message : '名字已經被使用過了'});
       b_checker = false;
     }
     if(b_checker){
       Person.findOne({username:req.body.username}, function(err, user) {
         if (user) {
-          console.log('The username that you chose has already been taken.');
           res.json({signup_status : 0 , signup_message : '帳號已經被使用過了'});
           b_checker = false;
         }

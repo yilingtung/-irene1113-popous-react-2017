@@ -8,8 +8,6 @@ module.exports = function(req, res, next){
   post.save(function(err){
   	if (err) throw err;
   	console.log('post saved!');
-    console.log('postcontent: ' + req.body.postcontent);
-    console.log('imgURL: ' + req.body.imgURL);
     res.json({m: 1});
   });
 };

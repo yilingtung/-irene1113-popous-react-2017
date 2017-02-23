@@ -97,7 +97,6 @@ class PerPost extends Component {
     });
   }
   setDetailModal(){
-    console.log('detail open');
     this.state.detail.setState({
       postUserImg: this.state.post.userid.imgURL,
       postUserName: this.state.post.userid.idname,
@@ -115,7 +114,6 @@ class PerPost extends Component {
       isCommentsShow: false,
       replyContent: ""
     },()=>{
-      console.log(this.state.detail.state.isCommentsShow);
       this.state.detail.getReplyInfo();
     });
   }
@@ -123,7 +121,6 @@ class PerPost extends Component {
     var array = this.state.content.state.postsKey;
     var index = array.indexOf(this.props.post._id);
     this.state.index = index;
-    console.log(this.state.index);
   }
   spliceArray(){
     this.state.content.state.posts.splice(this.state.index,1);

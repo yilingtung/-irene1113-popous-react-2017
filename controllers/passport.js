@@ -49,7 +49,6 @@ passport.appCallback = function(callback){
   passport.success= function(req, res) {
     req.session.idname = req.user.idname;
     req.session._id = req.user.id;
-    console.log(req.user.id);
     res.redirect('/member');
   }
 

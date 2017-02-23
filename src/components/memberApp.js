@@ -23,8 +23,6 @@ export default class MemberApp extends Component {
             id: object._id,
             imgURL: object.imgURL,
             login: object.login
-        },()=>{
-          console.log(object);
         });
       }
     }

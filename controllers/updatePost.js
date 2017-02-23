@@ -13,7 +13,6 @@ module.exports = function(req, res, next) {
       if (err) throw err;
       var likeList = post.like;
       var iLike = post.like.includes(req.session._id);
-      console.log(iLike);
       if(iLike){
         var index = likeList.indexOf(req.session._id);
         likeList.splice(index,1);

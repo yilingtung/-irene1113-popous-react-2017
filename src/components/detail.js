@@ -27,8 +27,7 @@ export default class Detail extends Component{
     xhttp.onreadystatechange = () =>{
       if(xhttp.readyState == 4 && xhttp.status == 200){
         var resObject = JSON.parse(xhttp.responseText);
-        var object = resObject.reply.map((value) => {
-          console.log(value);
+        var object = resObject.reply.map((value,index) => {
           return (
             <li key={value._id}>
               <div className="row">

@@ -6,7 +6,7 @@ module.exports = function(req, res, next){
   reply.userid = req.session._id;
   reply.save(function(err,reply){
   	if (err) throw err;
-    console.log(reply._id);
+    console.log('**add a reply, _id: ' + reply._id);
     res.json(reply._id);
   });
 
