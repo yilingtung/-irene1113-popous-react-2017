@@ -120,14 +120,16 @@ export default class Detail extends Component{
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="perPost-wrapper">
+            {this.state.isMyPost > 0 &&
               <div>
-                <div onClick={this.deletePost} className="action-btn detail-action-btn detail-action-del">
+                <div onClick={this.state.post_this.deletePost}  data-dismiss="modal" className="action-btn detail-action-btn detail-action-del">
                   <i className="fa fa-trash-o"></i>
                 </div>
-                <div onClick={this.setEditPostModal} href="#editPostModal" data-toggle="modal" className="action-btn detail-action-btn detail-action-edit">
+                <div onClick={this.state.post_this.setEditPostModal} href="#editPostModal"  data-dismiss="modal" data-toggle="modal" className="action-btn detail-action-btn detail-action-edit">
                   <i className="fa fa-pencil"></i>
                 </div>
               </div>
+            }
               <div className="panel-body">
               {this.state.haveImg ? (
                 <img src={ this.state.imgURL } className="img-responsive margin-center" />

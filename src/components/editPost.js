@@ -101,7 +101,7 @@ export default class EditPost extends Component{
         	            <div className="form-group">
         	              <textarea id="editPost_content_input" value={this.state.postcontent} onChange={(event) => this.setState({postcontent: event.target.value})} name="postcontent" type="text" className="form-control input-lg" rows="4" placeholder="想分享什麼？"></textarea>
         								<div className="row">
-                          <div id="editPost_post-img-div" className={this.state.haveImg ? ('img-div-style img-hover col-sm-3 col-xs-3') : ('display-none img-hover col-sm-3 col-xs-3')}>
+                          <div id="editPost_post-img-div" className={this.state.haveImg ? ('img-div-style img-hover col-sm-6 col-xs-6') : ('display-none img-hover col-sm-6 col-xs-6')}>
         										<img src={this.state.imgURL} id="editPost_output-img-preview" className="img-responsive margin-center"/>
         										<button onClick={this.removeImg} id="editPost_delete-btn" type="button" className="btn-img-delete close">×</button>
         									</div>

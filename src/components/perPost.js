@@ -101,6 +101,7 @@ class PerPost extends Component {
     this.state.detail.setState({
       postUserImg: this.state.post.userid.imgURL,
       postUserName: this.state.post.userid.idname,
+      isMyPost: this.state.post.isMyPost,
       post_id: this.state.post._id,
       post_this: this,
       postcontent: this.state.postcontent,
