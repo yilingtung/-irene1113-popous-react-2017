@@ -224,6 +224,53 @@
   word-break: break-word;
   background-color: #fff;
 }
+#search_text{
+  font-family: Montserrat, sans-serif;
+  border: 0 none;
+  height: 28px;
+  margin: 11px 0px;
+  padding: 5px 10px;
+  color: white;
+  outline: none;
+  background: #2b95b6;
+  float: left;
+  box-sizing: border-box;
+  transition: all 0.15s;
+  border-bottom-left-radius: 3px;
+  border-top-left-radius: 3px;
+}
+::-webkit-input-placeholder { /* WebKit browsers */
+  color: white;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color: white;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color: white;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+  color: white;
+}
+#search_text:focus {
+  background: #0c7a9b;
+}
+#search_button{
+  border: 0 none;
+  background-color: #2b95b6;
+  line-height: 18px;
+  float: left;
+  height: 28px;
+  width: 28px;
+  padding: 5px;
+  margin: 11px 10px 11px 0px;
+  text-align: center;
+  cursor: pointer;
+  border-bottom-right-radius: 3px;
+  border-top-right-radius: 3px;
+}
+#search_button:active{
+  background-color: #0c7a9b;
+}
 .post-likes,.post-comments{
   margin-left: 15px;
   float: right;
@@ -608,9 +655,7 @@ hr {
   color:#4EAFCD !important;
   height:28px;
   width:28px;
-  margin:9px;
-  margin-right:2px;
-  margin-left:15px;
+  margin:11px 15px;
   font-size:20px;
   font-weight:700;
   text-align:center;

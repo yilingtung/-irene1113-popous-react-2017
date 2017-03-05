@@ -46,15 +46,14 @@ export default class TopNav extends Component{
           </div>
         </div>
         <nav className="collapse navbar-collapse" role="navigation">
-          <form className="navbar-form navbar-left">
-              <div className="input-group input-group-sm" style={{maxWidth:360+'px'}}>
-                <input type="text" className="form-control" placeholder="Search" name="srch-term" id="srch-term" />
-                <div className="input-group-btn">
-                  <button className="btn btn-default" type="submit"><i className="glyphicon glyphicon-search"></i></button>
-                </div>
-              </div>
-          </form>
+
           <ul className="nav navbar-nav">
+          <li>
+            <form action="" method="get">
+                <input type="text" name="search_text" id="search_text" placeholder="Search"/>
+                <i className="fa fa-search" type="button" name="search_button" id="search_button"></i>
+            </form>
+          </li>
           {this.state.memberApp.state.login >0 &&
             <li className="text-align-center">
               <a href="#postModal" onClick={this.setPostModal} role="button" data-toggle="modal"><i className="glyphicon glyphicon-plus"></i> Post</a>
