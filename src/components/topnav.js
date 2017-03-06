@@ -46,14 +46,13 @@ export default class TopNav extends Component{
           </div>
         </div>
         <nav className="collapse navbar-collapse" role="navigation">
-
-          <ul className="nav navbar-nav">
-          <li>
+          <div className="hide-xs">
             <form action="" method="get">
                 <input type="text" name="search_text" id="search_text" placeholder="Search"/>
                 <i className="fa fa-search" type="button" name="search_button" id="search_button"></i>
             </form>
-          </li>
+          </div>
+          <ul className="nav navbar-nav">
           {this.state.memberApp.state.login >0 &&
             <li className="text-align-center">
               <a href="#postModal" onClick={this.setPostModal} role="button" data-toggle="modal"><i className="glyphicon glyphicon-plus"></i> Post</a>

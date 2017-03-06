@@ -227,8 +227,9 @@
 #search_text{
   font-family: Montserrat, sans-serif;
   border: 0 none;
+  width: 240px;
   height: 28px;
-  margin: 11px 0px;
+  margin: 11px 0px 11px 10px;
   padding: 5px 10px;
   color: white;
   outline: none;
@@ -351,6 +352,9 @@
   resize: vertical;
   width: 100%;
   float: left;
+}
+.response textarea::-webkit-input-placeholder{
+  color: #7e7e7e;
 }
 .response button{
   float: right;
