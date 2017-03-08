@@ -95,11 +95,6 @@ export default class TopNav extends Component{
                 </li>
               )}
           </ul>
-          {this.state.memberApp.state.login >0 &&
-            <div className='hello-box hide-xs'>
-              早安
-            </div>
-          }
         </nav>
       </div>
     );
