@@ -107,17 +107,15 @@ export default class Post extends Component{
               </div>
         			<form id="post_form" className="form center-block" method="post" action="/post" encType="multipart/form-data">
         	      <div className="modal-body">
-
-        	            <div className="form-group">
-        	              <textarea id="content_input" value={this.state.postcontent} onChange={(event) => this.setState({postcontent: event.target.value})} name="postcontent" type="text" className="form-control input-lg" rows="4" placeholder="想分享什麼？"></textarea>
-        								<div className="row">
-        									<div id="post-img-div" className={this.state.haveImg ? ('img-div-style img-hover col-sm-5 col-xs-5') : ('display-none img-hover col-sm-5 col-xs-5')}>
-        										<img src={this.state.imgURL} id="output-img-preview" className="img-responsive margin-center"/>
-        										<button onClick={this.removeImg} id="delete-btn" type="button" className="btn-img-delete close">×</button>
-        									</div>
-        								</div>
-        	            </div>
-
+    	            <div className="form-group">
+                    <div className="row">
+                      <div id="post-img-div" className={this.state.haveImg ? ('img-div-style img-hover col-sm-12 col-xs-5') : ('display-none img-hover col-sm-5 col-xs-5')}>
+                        <img src={this.state.imgURL} id="output-img-preview" className="img-responsive margin-center"/>
+                        <button onClick={this.removeImg} id="delete-btn" type="button" className="btn-img-delete close">×</button>
+                      </div>
+                    </div>
+    	              <textarea id="content_input" value={this.state.postcontent} onChange={(event) => this.setState({postcontent: event.target.value})} name="postcontent" type="text" className="form-control input-lg" rows="4" placeholder="想分享什麼？"></textarea>
+    	            </div>
         	      </div>
         	      <div className="modal-footer">
     							<div className="image-upload">

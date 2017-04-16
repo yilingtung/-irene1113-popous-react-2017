@@ -118,7 +118,7 @@ export default class Edit extends Component{
     			<div className="modal-content">
     				<div className="modal-header">
     					<button type="button" className="close"  data-dismiss="modal" aria-hidden="true">×</button>
-    					<i className="fa fa-pencil-square-o" aria-hidden="true"></i><span className="edit-title">編輯你的個人資料</span>
+    					<span className="edit-title">編輯你的個人資料</span>
     				</div>
     				<div className="modal-body">
     					<form id="edit-person-form" className="form center-block" method="put" encType="multipart/form-data">
@@ -144,12 +144,12 @@ export default class Edit extends Component{
     							</div>
     							<div className="row form-row-magin">
     								<div className="col-xs-3 col-sm-3 text-align-center">
-    									<h5>更新大頭貼</h5>
+    									<h5>更新頭貼</h5>
     								</div>
     								<div className="col-xs-9 col-sm-6 margin-center">
     									<div className="image-upload pull-left list-inline">
     										<label htmlFor="edit-img-input">
-    											<i className="fa fa-file-image-o fa-2x" aria-hidden="true">  <span id="edit-img-name" className="itag-img">{this.state.imgFileName ? (this.state.imgFileName) : ('選擇一張照片')}</span></i>
+    											<i className="fa fa-picture-o fa-2x" aria-hidden="true">  <span id="edit-img-name" className="itag-img">{this.state.imgFileName ? (this.state.imgFileName) : ('選擇新照片')}</span></i>
     				    				</label>
     				    				<input id="edit-img-input" type="file" name="userPhoto" value={this.state.inputValue} onChange={this.changeFileName}/>
     									</div>
