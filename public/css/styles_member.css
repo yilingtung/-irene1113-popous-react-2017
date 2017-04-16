@@ -346,8 +346,7 @@
 .response div {
   padding-left: 30px;
   padding-right: 53px;
-  width: 100%;
-  height: 30px; }
+  width: 100%; }
 
 .response textarea {
   border-radius: 3px;
@@ -730,6 +729,16 @@ h1, h2, h3 {
   font-weight: 800;
   font-size: 12px; }
 
+.modal-header{
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.modal-footer{
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
 .modal-footer i, .well i {
   font-size: 20px;
   color: #c0c0c0; }
@@ -880,6 +889,7 @@ small.text-muted {
   .response div {
     padding-right: 0px;
     margin-bottom: 10px;
+    height: 30px;
   }
 
   .detail-action-del, .detail-action-edit{
@@ -887,7 +897,6 @@ small.text-muted {
   }
   .detail-action-btn {
     background-color: #fff;
-    border: 2px solid rgba(0,0,0,.2);
   }
   .detail-action-btn:hover{
     background-color: rgba(255, 255, 255, 0.75);
