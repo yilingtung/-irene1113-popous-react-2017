@@ -578,7 +578,7 @@ hr {
   padding: 20px; }
 
 .full {
-  padding-top: 70px; }
+  padding-top: 50px; }
 
 .height-100 {
   height: 100%; }
@@ -831,29 +831,6 @@ small.text-muted {
   100% {
     -webkit-transform: rotate(540deg);
     transform: rotate(540deg); } }
-/* adjust the contents on smaller devices */
-@media (max-width: 1200px) {
-  .column .padding {
-    padding: 7px; }
-
-  .full {
-    padding-top: 20px; }
-
-  .navbar-blue {
-    background-color: #4EAFCD;
-    top: 0;
-    width: 100%; } }
-@media (max-width: 768px) {
-  .column .padding {
-    padding: 7px; }
-
-  .full {
-    padding-top: 20px; }
-
-  .navbar-blue {
-    background-color: #4EAFCD;
-    top: 0;
-    width: 100%; } }
 /*
  * off canvas sidebar
  * --------------------------------------------------

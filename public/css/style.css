@@ -26,7 +26,7 @@
 
 html > body {
   font-family: Arial;
-  background-color: #4EAFCD;
+  background-color: #d5e6f2;
   /*
   background-image: url(../img/background-photo.png);
   */
@@ -46,8 +46,9 @@ html > body {
   border-radius: 5px; }
 
 .app-title {
+  cursor: default;
   text-align: center;
-  color: #777; }
+  color: #b2d3d6; }
 
 .login-form {
   text-align: center; }
@@ -60,7 +61,8 @@ a:hover {
 
 input {
   text-align: center;
-  background-color: #ECF0F1;
+  background-color: #edf5f6;
+  color: #65999d;
   border: 2px solid transparent;
   border-radius: 3px;
   font-weight: 200;
@@ -68,6 +70,10 @@ input {
   width: 80%;
   transition: border .5s; }
 
+input::placeholder{
+  color: #9f9f9f;
+  font-weight:normal ;
+}
 input:focus {
   border: 2px solid #4AC6B7;
   box-shadow: none; }
@@ -118,7 +124,7 @@ input:focus {
   top: 0px;
   left: 100%;
   height: 100%;
-  background-color: #334858;
+  background-color: #285f80;
   background-size: cover;
   z-index: 3; }
 
@@ -126,8 +132,9 @@ input:focus {
   color: #e03838; }
 
 .login-link {
+  cursor: pointer;
   font-size: 12px;
-  color: #337ab7;
+  color: #4ba1af;
   display: block;
   margin-top: 12px; }
 
@@ -166,7 +173,7 @@ input:focus {
   text-align: center; }
 
 .loginBtn {
-  background: #4AC6B7;
+  background: #74c7da;
   padding: 10px;
   font-size: 20px;
   display: block;
@@ -183,7 +190,7 @@ input:focus {
   top: -2px; }
 
 .loginBtn:active {
-  background: #3FAA9E;
+  background: #4ba1af;
   position: relative;
   top: 1px; }
 

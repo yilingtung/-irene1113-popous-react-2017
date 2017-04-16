@@ -14,7 +14,7 @@ export default class App extends Component {
         <link rel="stylesheet" href="assets/css/style.css" />
         <SignUp indexApp = {this}/>
         <div className="login-logo" >
-            <img className="img-fix-size" src="assets/img/logo.png"/>
+            <img className="img-fix-size" src="assets/img/logo1.png"/>
         </div>
         <Login indexApp = {this}/>
       </div>
