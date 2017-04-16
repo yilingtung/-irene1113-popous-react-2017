@@ -842,8 +842,7 @@ small.text-muted {
   .navbar-blue {
     background-color: #4EAFCD;
     top: 0;
-    width: 100%;
-    position: relative; } }
+    width: 100%; } }
 @media (max-width: 768px) {
   .column .padding {
     padding: 7px; }
@@ -854,8 +853,7 @@ small.text-muted {
   .navbar-blue {
     background-color: #4EAFCD;
     top: 0;
-    width: 100%;
-    position: relative; } }
+    width: 100%; } }
 /*
  * off canvas sidebar
  * --------------------------------------------------
