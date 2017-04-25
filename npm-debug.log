@@ -24,7 +24,7 @@
 14 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:226:5)
 15 verbose pkgid popous@1.0.0
 16 verbose cwd /Users/irenetung/Desktop/gallery/web/popous
-17 error Darwin 16.1.0
+17 error Darwin 16.5.0
 18 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "start"
 19 error node v6.9.1
 20 error npm  v3.10.8

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import request from 'superagent';
+import Nl2br from './nl2br';
 const CLOUDINARY_UPLOAD_PRESET = 'popousUserImg';
 const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/dxwnkzsxe/image/upload';
 
@@ -160,7 +161,7 @@ export default class Detail extends Component{
                     <p>{this.state.updateTime}</p>
                   </div>
                 {this.state.haveImg > 0 &&
-                  <p>{this.state.postcontent}</p>
+                  <Nl2br str={this.state.postcontent} />
                 }
                 </div>
                 <div className='all-comment-toggle'>

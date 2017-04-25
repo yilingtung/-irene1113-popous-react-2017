@@ -11,6 +11,5 @@ module.exports = function ( req, res, next ){
         res.json({delete_status: 1 ,delete_message: "remove."});
       });
     });
-
   });
 };

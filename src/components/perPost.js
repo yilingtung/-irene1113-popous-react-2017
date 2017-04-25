@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-
+import Nl2br from './nl2br';
 
 class PerPost extends Component {
   constructor(props){
@@ -78,6 +78,7 @@ class PerPost extends Component {
         var o = JSON.parse(xhttp.responseText);
         if(o.delete_status == 1){
           _this.spliceArray();
+          console.log(o.delete_message);
         }
       }
     }
@@ -191,7 +192,7 @@ class PerPost extends Component {
               {this.state.haveImg ? (
                 <img onLoad={this.state.content.callMasonry} src={ this.state.imgURL } className="img-responsive margin-center" />
               ):(
-                <p >{ this.state.postcontent }</p>
+                <Nl2br str={this.state.postcontent} />
               )}
               </div>
               <div className="panel-body-name">
@@ -215,7 +216,7 @@ class PerPost extends Component {
               <div className="panel-body">
                 <div className="panel-body-content">
                 {this.state.haveImg > 0 &&
-                  <p>{this.state.postcontent}</p>
+                  <Nl2br str={this.state.postcontent} />
                 }
                 </div>
               </div>
