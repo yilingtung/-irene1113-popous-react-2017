@@ -5,14 +5,13 @@ export default class Nl2br extends Component{
     super(props);
     this.state = {
     };
+    console.log(typeof props.str === 'string');
   }
   render(){
     return(
       <span>
       {
-        typeof str === 'string' ?
-          this.props.str
-        :
+        typeof this.props.str === 'string' &&
           this.props.str.split('↵').map((item, key) => {
             return <span key={key}>{item}<br/></span>
           })

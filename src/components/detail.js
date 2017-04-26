@@ -9,7 +9,8 @@ export default class Detail extends Component{
     super(props);
     this.state = {
       memberApp: this.props.memberApp,
-      replys:''
+      replys:'',
+      postcontent: ''
     };
     this.toggleComment = this.toggleComment.bind(this);
     this.submitForm = this.submitForm.bind(this);
@@ -134,7 +135,7 @@ export default class Detail extends Component{
               {this.state.haveImg ? (
                 <img src={ this.state.imgURL } className="img-responsive margin-center" />
               ):(
-                <p >{ this.state.postcontent }</p>
+                <Nl2br str={this.state.postcontent} />
               )}
               </div>
               <div className="panel-body-name">
