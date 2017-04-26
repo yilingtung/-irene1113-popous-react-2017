@@ -66,14 +66,14 @@ export default class EditPost extends Component{
       var newPost = {
         _id: _this.state._id,
         userid:_this.state.userid,
-        postcontent:_this.state.postcontent,
+        postcontent:_this.state.postcontent.replace(/\r?\n/g, '↵'),
         imgURL:_this.state.imgURL,
         updateTime:_this.state.updateTime
       };
       xhttp.onreadystatechange = function () {
         if(xhttp.readyState == 4 && xhttp.status == 200){
           _this.state.postself.setState({
-            postcontent: _this.state.postcontent,
+            postcontent: _this.state.postcontent.replace(/\r?\n/g, '↵'),
             imgURL: _this.state.imgURL
           }, () => {
             _this.state.postself.postProcessingStop();

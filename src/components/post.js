@@ -78,7 +78,7 @@ export default class Post extends Component{
         _this.imgUpload(function(){
           var xhttp = new XMLHttpRequest();
           var newPost = {
-            postcontent : _this.state.postcontent,
+            postcontent : _this.state.postcontent.replace(/\r?\n/g, '↵'),
             imgURL: _this.state.imgURL,
             updateTime : _this.state.updateTime,
             like: [],

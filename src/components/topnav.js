@@ -46,6 +46,7 @@ export default class TopNav extends Component{
           </div>
         </div>
         <nav className="collapse navbar-collapse" role="navigation">
+
           <div className="hide-xs">
             <form action="" method="get">
                 <input type="text" name="search_text" id="search_text" placeholder="Search"/>
@@ -67,7 +68,7 @@ export default class TopNav extends Component{
               <a href="">{this.state.memberApp.state.login ? "登出": "登入"}</a>
             </li>
           </ul>
-          <ul className="nav navbar-nav navbar-right margin-right-0 hide-xs">
+          <ul className="float-right nav navbar-nav navbar-right margin-right-0 hide-xs">
               {this.state.memberApp.state.login ?(
                 <li className="dropdown">
                   <a href="#" className="dropdown-toggle" data-toggle="dropdown"><i className="glyphicon glyphicon-user"></i></a>
@@ -95,6 +96,12 @@ export default class TopNav extends Component{
                 </li>
               )}
           </ul>
+          {this.state.memberApp.state.login &&
+            <div id="navbar-userphoto-div" className="hide-xs">
+              <div className='userInfo-box'>{this.state.memberApp.state.idname}</div>
+              <img src={this.state.memberApp.state.imgURL} id="navbar-userphoto" className="img-responsive displayed" alt="" />
+            </div>
+          }
         </nav>
       </div>
     );

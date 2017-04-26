@@ -86,10 +86,12 @@ class PerPost extends Component {
     xhttp.send();
   }
   setEditPostModal(){
+    console.log(this.state.postcontent);
+    var str = this.state.postcontent.replace(/↵/g,"\n");
     this.state.editPost.setState({
       postself: this,
       _id: this.state.post._id,
-      postcontent: this.state.postcontent,
+      postcontent: str,
       imgURL: this.state.imgURL,
       haveImg: this.state.haveImg,
       imgFile: null,

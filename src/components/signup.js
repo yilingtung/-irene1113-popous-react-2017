@@ -46,7 +46,7 @@ export default class SignUp extends Component{
           idname: this.state.idname.toString(),
           username: this.state.username.toString(),
           password: this.state.password.toString(),
-          imgURL: "assets/img/" + (Math.floor((Math.random() * 10) + 1)).toString() + ".jpg"
+          imgURL: "assets/img/" + (Math.floor((Math.random() * 3) + 1)).toString() + ".jpg"
         };
 
     xhttp.open("POST", "/signup");
